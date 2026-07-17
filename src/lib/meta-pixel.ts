@@ -5,6 +5,8 @@ export type MetaEventData = Record<string, string | number | string[] | undefine
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    __metaPixels?: Record<string, boolean>;
+    __metaPageView?: boolean;
   }
 }
 
@@ -19,12 +21,34 @@ function productPayload(plan: string, planName: string, value: number): MetaEven
   };
 }
 
+export function ensureMetaPixel(trackPageView = false) {
+  if (typeof window === "undefined") return false;
+
+  if (typeof window.fbq !== "function") {
+    return false;
+  }
+
+  window.__metaPixels ??= {};
+  if (!window.__metaPixels[META_PIXEL_ID]) {
+    window.fbq("init", META_PIXEL_ID);
+    window.__metaPixels[META_PIXEL_ID] = true;
+  }
+
+  if (trackPageView && !window.__metaPageView) {
+    window.fbq("track", "PageView");
+    window.__metaPageView = true;
+  }
+
+  return true;
+}
+
 function callFbq(
   eventName: string,
   data: MetaEventData = {},
   eventId?: string,
 ) {
   if (typeof window === "undefined") return;
+  ensureMetaPixel();
   const fbq = window.fbq;
   if (typeof fbq !== "function") return;
 
