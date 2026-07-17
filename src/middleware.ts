@@ -12,11 +12,11 @@ const SECURITY_HEADERS: Record<string, string> = {
 function buildCsp(): string {
   return [
     "default-src 'self'",
-    "script-src 'self' 'unsafe-inline' 'unsafe-eval'",
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://api.metrito.com https://sst.descomplicalibras.shop",
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://viacep.com.br https://api.pay.hoopay.com.br",
+    "connect-src 'self' https://viacep.com.br https://api.pay.hoopay.com.br https://api.metrito.com https://sst.descomplicalibras.shop",
     "frame-ancestors 'none'",
     "base-uri 'self'",
     "form-action 'self'",
