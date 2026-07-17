@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckoutForm } from "@/components/CheckoutForm";
+import { MetritoCheckoutTracker } from "@/components/MetritoCheckoutTracker";
 import { PLANS, isPlanSlug } from "@/lib/hoopay";
 import { SITE } from "@/lib/site";
 
@@ -76,6 +77,8 @@ export default async function CheckoutPage({
             <p className="mt-2 text-xl font-black text-cta-darker">{ui.amountLabel}</p>
           </div>
         </div>
+
+        <MetritoCheckoutTracker plan={plan} planName={ui.name} value={PLANS[plan].amount} />
 
         <CheckoutForm
           plan={plan}

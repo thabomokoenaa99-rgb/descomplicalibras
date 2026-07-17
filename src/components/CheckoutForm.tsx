@@ -1,7 +1,13 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  toMetritoLead,
+  trackAddPaymentInfo,
+  trackInitiateCheckout,
+  trackPurchase,
+} from "@/lib/metrito";
 
 type PixData = {
   method: "pix";
@@ -99,8 +105,32 @@ export function CheckoutForm({
   const [paid, setPaid] = useState(false);
   const [paidEmail, setPaidEmail] = useState("");
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const purchaseTrackedRef = useRef(false);
 
   const maxInstallments = amount >= 50 ? 6 : amount >= 30 ? 3 : 1;
+
+  const trackPurchaseOnce = useCallback(
+    (orderId: string | undefined, paymentMethod: Method) => {
+      if (purchaseTrackedRef.current) return;
+      purchaseTrackedRef.current = true;
+      trackPurchase(plan, planName, amount, {
+        orderId,
+        paymentMethod,
+        lead: toMetritoLead(form),
+      });
+    },
+    [plan, planName, amount, form],
+  );
+
+  const confirmPixPayment = useCallback(
+    (orderId: string) => {
+      setPaid(true);
+      setPaidEmail(form.email);
+      trackPurchaseOnce(orderId, "pix");
+      if (pollRef.current) clearInterval(pollRef.current);
+    },
+    [form.email, trackPurchaseOnce],
+  );
 
   useEffect(() => {
     if (!pix || paid) return;
@@ -109,9 +139,7 @@ export function CheckoutForm({
         const res = await fetch(`/api/checkout/status?order=${pix.orderUUID}`);
         const data = await res.json();
         if (data.status === "paid" || data.status === "approved") {
-          setPaid(true);
-          setPaidEmail(form.email);
-          if (pollRef.current) clearInterval(pollRef.current);
+          confirmPixPayment(pix.orderUUID);
         }
       } catch {
         // keep polling
@@ -120,7 +148,7 @@ export function CheckoutForm({
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, [pix, paid, form.email]);
+  }, [pix, paid, confirmPixPayment]);
 
   async function lookupCep(raw: string) {
     const cep = raw.replace(/\D/g, "");
@@ -149,6 +177,10 @@ export function CheckoutForm({
     e.preventDefault();
     setError(null);
     setLoading(true);
+
+    const lead = toMetritoLead(form);
+    trackInitiateCheckout(plan, planName, amount, lead);
+
     try {
       const payload: Record<string, unknown> = {
         plan,
@@ -175,11 +207,14 @@ export function CheckoutForm({
       }
 
       if (data.method === "creditCard" || data.status === "paid") {
+        trackAddPaymentInfo(plan, planName, amount, "creditCard", lead);
+        trackPurchaseOnce(data.orderUUID as string | undefined, "creditCard");
         setPaidEmail(form.email);
         setPaid(true);
         return;
       }
 
+      trackAddPaymentInfo(plan, planName, amount, "pix", lead);
       setPix(data);
     } catch {
       setError("Falha de conexão. Verifique sua internet e tente de novo.");
@@ -324,6 +359,7 @@ export function CheckoutForm({
         </label>
         <input
           id="co-name"
+          name="nome"
           className={inputClass}
           placeholder="Seu nome"
           autoComplete="name"
@@ -340,6 +376,7 @@ export function CheckoutForm({
         </label>
         <input
           id="co-email"
+          name="email"
           type="email"
           className={inputClass}
           placeholder="voce@email.com"
@@ -357,6 +394,7 @@ export function CheckoutForm({
           </label>
           <input
             id="co-phone"
+            name="telefone"
             type="tel"
             inputMode="numeric"
             className={inputClass}
@@ -373,6 +411,7 @@ export function CheckoutForm({
           </label>
           <input
             id="co-cpf"
+            name="cpf"
             inputMode="numeric"
             className={inputClass}
             placeholder="000.000.000-00"

@@ -13,7 +13,7 @@ type CtaButtonProps = {
 
 export function CtaButton({
   children,
-  href = "#oferta",
+  href,
   onClick,
   className = "",
   ariaLabel,
@@ -31,17 +31,19 @@ export function CtaButton({
     `border border-cta-dark/20 leading-[1.1] whitespace-nowrap focus-visible:outline-none ` +
     `focus-visible:ring-4 focus-visible:ring-cta/40 ${sizeClass} ${className}`;
 
-  if (onClick) {
+  const resolvedHref = href ?? (onClick ? undefined : "#oferta");
+
+  if (resolvedHref) {
     return (
-      <button type="button" onClick={onClick} className={base} aria-label={ariaLabel}>
+      <a href={resolvedHref} onClick={onClick} className={base} aria-label={ariaLabel}>
         {children}
-      </button>
+      </a>
     );
   }
 
   return (
-    <a href={href} className={base} aria-label={ariaLabel}>
+    <button type="button" onClick={onClick} className={base} aria-label={ariaLabel}>
       {children}
-    </a>
+    </button>
   );
 }
