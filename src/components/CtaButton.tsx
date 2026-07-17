@@ -1,11 +1,11 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { type MouseEvent, type ReactNode } from "react";
 
 type CtaButtonProps = {
   children: ReactNode;
   href?: string;
-  onClick?: () => void;
+  onClick?: (event: MouseEvent<HTMLAnchorElement | HTMLButtonElement>) => void;
   className?: string;
   ariaLabel?: string;
   size?: "md" | "lg";

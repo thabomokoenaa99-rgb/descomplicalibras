@@ -16,10 +16,11 @@ function buildCsp(): string {
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https:",
     "font-src 'self' https://fonts.gstatic.com",
-    "connect-src 'self' https://viacep.com.br https://api.pay.hoopay.com.br https://api.metrito.com https://sst.descomplicalibras.shop https://tracking.metrito.com https://gateway.metrito.com https://gateway.metrito.link https://www.facebook.com https://graph.facebook.com https://ip-check-perf.radar.cloudflare.com",
+    "connect-src 'self' https://viacep.com.br https://api.pay.hoopay.com.br https://api.metrito.com https://sst.descomplicalibras.shop https://tracking.metrito.com https://gateway.metrito.com https://gateway.metrito.link https://www.facebook.com https://graph.facebook.com https://connect.facebook.net https://ip-check-perf.radar.cloudflare.com",
+    "frame-src https://www.facebook.com https://connect.facebook.net",
     "frame-ancestors 'none'",
     "base-uri 'self'",
-    "form-action 'self'",
+    "form-action 'self' https://www.facebook.com",
   ].join("; ");
 }
 
