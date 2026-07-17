@@ -17,6 +17,7 @@ type Props = {
   planName: string;
   amountLabel: string;
   amount: number;
+  enableCreditCard?: boolean;
 };
 
 type Method = "pix" | "creditCard";
@@ -65,7 +66,13 @@ function formatBRL(n: number) {
   return n.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
 }
 
-export function CheckoutForm({ plan, planName, amountLabel, amount }: Props) {
+export function CheckoutForm({
+  plan,
+  planName,
+  amountLabel,
+  amount,
+  enableCreditCard = true,
+}: Props) {
   const [method, setMethod] = useState<Method>("pix");
   const [form, setForm] = useState({ name: "", email: "", phone: "", document: "" });
   const [card, setCard] = useState({
@@ -109,7 +116,7 @@ export function CheckoutForm({ plan, planName, amountLabel, amount }: Props) {
       } catch {
         // keep polling
       }
-    }, 5000);
+    }, 8000);
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
@@ -293,14 +300,18 @@ export function CheckoutForm({ plan, planName, amountLabel, amount }: Props) {
           type="button"
           role="tab"
           aria-selected={method === "creditCard"}
+          disabled={!enableCreditCard}
           onClick={() => {
+            if (!enableCreditCard) return;
             setMethod("creditCard");
             setError(null);
           }}
           className={`rounded-xl py-3 text-sm font-extrabold transition-colors ${
             method === "creditCard"
               ? "bg-cta text-ink shadow-sm"
-              : "text-body hover:text-ink"
+              : enableCreditCard
+                ? "text-body hover:text-ink"
+                : "text-body/40 cursor-not-allowed"
           }`}
         >
           💳 Cartão
@@ -616,8 +627,15 @@ export function CheckoutForm({ plan, planName, amountLabel, amount }: Props) {
             : `Pagar ${amountLabel} no cartão`}
       </button>
 
-      <p className="text-center text-[11px] text-body/60 flex items-center justify-center gap-1.5">
-        <span aria-hidden="true">🔒</span> Pagamento seguro processado pela Hoopay
+      <p className="text-center text-[11px] text-body/60 leading-relaxed">
+        <span aria-hidden="true">🔒</span> Pagamento seguro processado pela Hoopay.
+        {method === "creditCard" && (
+          <> Consulta de CEP via ViaCEP conforme nossa{" "}
+            <a href="/privacidade" className="underline hover:text-ink">
+              Política de Privacidade
+            </a>.
+          </>
+        )}
       </p>
     </form>
   );

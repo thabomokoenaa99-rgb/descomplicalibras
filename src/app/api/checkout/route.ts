@@ -1,5 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HOOPAY_API_URL, PLANS, hoopayAuthHeader, isPlanSlug } from "@/lib/hoopay";
+import { isValidCpf, onlyDigits } from "@/lib/security/cpf";
+import {
+  extractGatewayError,
+  publicGatewayError,
+  publicPaymentError,
+} from "@/lib/security/errors";
+import { enforceCheckoutRateLimit } from "@/lib/security/rate-limit";
+import { safeLog } from "@/lib/security/log";
+import { buildWebhookCallbackUrl } from "@/lib/security/webhook";
 
 type PaymentMethod = "pix" | "creditCard";
 
@@ -28,11 +37,14 @@ type CheckoutBody = {
   };
 };
 
-function onlyDigits(v: string) {
-  return (v ?? "").replace(/\D/g, "");
+function creditCardEnabled(): boolean {
+  return process.env.ENABLE_CREDIT_CARD !== "false";
 }
 
 export async function POST(req: NextRequest) {
+  const rateLimited = await enforceCheckoutRateLimit(req);
+  if (rateLimited) return rateLimited;
+
   let body: CheckoutBody;
   try {
     body = await req.json();
@@ -48,6 +60,9 @@ export async function POST(req: NextRequest) {
   if (method !== "pix" && method !== "creditCard") {
     return NextResponse.json({ error: "Forma de pagamento inválida" }, { status: 400 });
   }
+  if (method === "creditCard" && !creditCardEnabled()) {
+    return NextResponse.json({ error: "Pagamento com cartão indisponível no momento." }, { status: 503 });
+  }
 
   const cleanPhone = onlyDigits(phone);
   const cleanDoc = onlyDigits(document);
@@ -61,7 +76,7 @@ export async function POST(req: NextRequest) {
   if (cleanPhone.length < 10 || cleanPhone.length > 11) {
     return NextResponse.json({ error: "Informe um celular válido com DDD" }, { status: 400 });
   }
-  if (cleanDoc.length !== 11) {
+  if (!isValidCpf(cleanDoc)) {
     return NextResponse.json({ error: "Informe um CPF válido" }, { status: 400 });
   }
 
@@ -110,7 +125,7 @@ export async function POST(req: NextRequest) {
     req.nextUrl.origin ??
     "http://localhost:3001"
   ).replace(/\/$/, "");
-  const callbackURL = `${siteUrl}/api/webhooks/hoopay`;
+  const callbackURL = buildWebhookCallbackUrl(siteUrl);
 
   const payments =
     method === "pix"
@@ -177,22 +192,15 @@ export async function POST(req: NextRequest) {
     const data = await res.json();
 
     if (!res.ok || data?.payment?.hasErrors) {
-      const chargeErrors = data?.payment?.charges?.[0]?.errorMessages;
-      const message =
-        (Array.isArray(chargeErrors) && chargeErrors[0]) ||
-        data?.errors?.[0]?.message ||
-        data?.payment?.message ||
-        "Não foi possível processar o pagamento. Tente novamente.";
-      return NextResponse.json({ error: message }, { status: 502 });
+      const internal = extractGatewayError(data);
+      safeLog("[checkout] gateway error", { plan, method, internal });
+      return NextResponse.json({ error: publicPaymentError() }, { status: 502 });
     }
 
     if (method === "pix") {
       const charge = data?.payment?.charges?.[0];
       if (!charge?.pixPayload) {
-        return NextResponse.json(
-          { error: "Resposta inesperada do gateway. Tente novamente." },
-          { status: 502 },
-        );
+        return NextResponse.json({ error: publicPaymentError() }, { status: 502 });
       }
       return NextResponse.json({
         method: "pix",
@@ -207,14 +215,7 @@ export async function POST(req: NextRequest) {
 
     const status = data?.payment?.status ?? data?.payment?.charges?.[0]?.status;
     if (status !== "paid" && status !== "approved") {
-      return NextResponse.json(
-        {
-          error:
-            data?.payment?.message ||
-            "Pagamento não autorizado. Verifique os dados do cartão.",
-        },
-        { status: 402 },
-      );
+      return NextResponse.json({ error: publicPaymentError() }, { status: 402 });
     }
 
     return NextResponse.json({
@@ -225,10 +226,11 @@ export async function POST(req: NextRequest) {
       plan,
     });
   } catch (err) {
-    console.error("Hoopay charge error:", err);
-    return NextResponse.json(
-      { error: "Falha de comunicação com o gateway de pagamento." },
-      { status: 502 },
-    );
+    safeLog("[checkout] communication error", {
+      plan,
+      method,
+      message: err instanceof Error ? err.message : "unknown",
+    });
+    return NextResponse.json({ error: publicGatewayError() }, { status: 502 });
   }
 }

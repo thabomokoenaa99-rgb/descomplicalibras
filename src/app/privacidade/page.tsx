@@ -21,8 +21,14 @@ export default function PrivacidadePage() {
           prestar suporte. Não vendemos seus dados pessoais a terceiros.
         </p>
         <p className="text-body leading-relaxed mt-4">
-          Informações de pagamento são processadas por gateways seguros. Você pode solicitar atualização
-          ou exclusão de dados de contato conforme a LGPD, entrando em contato pelo suporte.
+          Informações de pagamento são processadas pela Hoopay. Dados de cartão não são armazenados
+          em nossos servidores após o processamento. Para consulta de CEP no checkout, utilizamos o
+          serviço ViaCEP (viacep.com.br), enviando apenas o CEP informado por você.
+        </p>
+        <p className="text-body leading-relaxed mt-4">
+          Coletamos nome, e-mail, CPF, telefone e dados necessários para emissão de cobrança e
+          entrega do produto digital. Logs de sistema são minimizados e mascarados (sem dados
+          sensíveis de pagamento).
         </p>
       </article>
     </main>

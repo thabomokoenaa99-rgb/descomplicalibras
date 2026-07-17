@@ -82,6 +82,7 @@ export default async function CheckoutPage({
           planName={ui.name}
           amountLabel={ui.amountLabel}
           amount={PLANS[plan].amount}
+          enableCreditCard={process.env.ENABLE_CREDIT_CARD !== "false"}
         />
 
         <p className="mt-6 text-center text-xs text-body/60 flex items-center justify-center gap-2 flex-wrap">

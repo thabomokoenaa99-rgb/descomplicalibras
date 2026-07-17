@@ -6,12 +6,9 @@ O site é **Next.js com API** (checkout Hoopay). O XAMPP/Apache só faz **proxy 
 
 | Item | Valor |
 |------|--------|
-| VPS | 185.115.161.45 (RDP :3389) |
+| Hospedagem | Vercel (recomendado) — veja `deploy/VERCEL.md` |
 | Domínio | descomplicalibras.shop |
-| App Node | porta 3000 |
-| Apache | porta 80 → proxy para 3000 |
-
-SSH **não** está aberto na VPS — deploy via **Área de Trabalho Remota**.
+| Checkout | `/checkout/basico` e `/checkout/completo` |
 
 ---
 
@@ -108,6 +105,7 @@ New-NetFirewallRule -DisplayName "HTTP" -Direction Inbound -Protocol TCP -LocalP
 
 ## Segurança
 
-- **Troque a senha RDP** após o deploy (foi exposta no chat).
-- Nunca commite `.env.local` no Git.
-- Webhook Hoopay: `https://descomplicalibras.shop/api/webhooks/hoopay`
+- Nunca commite `.env.local` ou `deploy/env.vps.local` no Git.
+- Configure `HOOPAY_WEBHOOK_SECRET` na Vercel — veja `deploy/SECURITY.md`.
+- Webhook Hoopay: `https://descomplicalibras.shop/api/webhooks/hoopay?token=SEU_SECRET`
+- Se a VPS não for mais usada, desligue o servidor e remova credenciais RDP antigas.

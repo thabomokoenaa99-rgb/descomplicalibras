@@ -26,7 +26,10 @@ Sem API token, sem Wrangler, sem VPS. Next.js roda nativo.
 | `NEXT_PUBLIC_SITE_URL` | `https://descomplicalibras.shop` |
 | `HOOPAY_CLIENT_ID` | *(seu ID)* |
 | `HOOPAY_CLIENT_SECRET` | *(seu secret)* |
+| `HOOPAY_WEBHOOK_SECRET` | Token aleatório (`openssl rand -hex 32`) |
 | `HOOPAY_API_URL` | `https://api.pay.hoopay.com.br` |
+| `UPSTASH_REDIS_REST_URL` | *(opcional, rate limit)* |
+| `UPSTASH_REDIS_REST_TOKEN` | *(opcional, rate limit)* |
 
 6. Clique **Deploy**
 
