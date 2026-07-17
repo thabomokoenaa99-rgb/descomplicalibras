@@ -1,4 +1,4 @@
-const META_PIXEL_ID = "1701264531180748";
+import { META_PIXEL_ID } from "@/lib/meta-pixel";
 
 export function MetaPixelScript() {
   return (

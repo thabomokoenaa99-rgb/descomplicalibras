@@ -1,6 +1,7 @@
 import Image from "next/image";
-import { CtaButton } from "@/components/CtaButton";
+import { PlanCheckoutButton } from "@/components/PlanCheckoutButton";
 import { copy } from "@/lib/content";
+import { PLANS } from "@/lib/hoopay";
 import { SITE } from "@/lib/site";
 
 export function PricingSection() {
@@ -52,9 +53,15 @@ export function PricingSection() {
                   {copy.pricing.basic.priceLabel} R$ {SITE.prices.basic}
                 </span>
               </div>
-              <CtaButton href={SITE.checkout.basic} className="w-full text-base sm:text-xl shadow-[0_8px_20px_rgba(37,211,102,0.3)]">
+              <PlanCheckoutButton
+                href={SITE.checkout.basic}
+                plan="basico"
+                planName={copy.pricing.basic.name}
+                value={PLANS.basico.amount}
+                className="w-full text-base sm:text-xl shadow-[0_8px_20px_rgba(37,211,102,0.3)]"
+              >
                 {copy.pricing.basic.cta}
-              </CtaButton>
+              </PlanCheckoutButton>
               <div className="mt-6 flex flex-col items-center justify-center gap-2.5">
                 <p className="text-red-600 text-base sm:text-lg font-black text-balance text-center">
                   {copy.pricing.basic.nudge}
@@ -138,9 +145,15 @@ export function PricingSection() {
                   ✅ {copy.pricing.complete.save} R$ {SITE.prices.savings}
                 </span>
               </div>
-              <CtaButton href={SITE.checkout.complete} className="w-full text-base sm:text-xl">
+              <PlanCheckoutButton
+                href={SITE.checkout.complete}
+                plan="completo"
+                planName={copy.pricing.complete.name}
+                value={PLANS.completo.amount}
+                className="w-full text-base sm:text-xl"
+              >
                 {copy.pricing.complete.cta}
-              </CtaButton>
+              </PlanCheckoutButton>
             </div>
           </div>
         </div>

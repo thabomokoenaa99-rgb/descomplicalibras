@@ -1,3 +1,10 @@
+import {
+  trackMetaAddPaymentInfo,
+  trackMetaInitiateCheckout,
+  trackMetaPurchase,
+  trackMetaViewContent,
+} from "@/lib/meta-pixel";
+
 type MetritoLead = {
   name?: string;
   email?: string;
@@ -22,6 +29,7 @@ type MetritoTrackPayload = {
 
 type MtrtFn = ((eventName: string, payload?: MetritoTrackPayload) => void) & {
   track?: (eventName: string, payload?: MetritoTrackPayload) => void;
+  queue?: unknown[];
 };
 
 declare global {
@@ -36,7 +44,7 @@ function getMtrt(): MtrtFn | undefined {
   return window.mtrt ?? window.metrito;
 }
 
-export function trackMetrito(
+function trackMetrito(
   eventName: string,
   {
     data = {},
@@ -84,6 +92,7 @@ function productPayload(plan: string, planName: string, value: number) {
 }
 
 export function trackViewContent(plan: string, planName: string, value: number) {
+  trackMetaViewContent(plan, planName, value);
   trackMetrito("ViewContent", {
     data: productPayload(plan, planName, value),
     facebookName: "ViewContent",
@@ -96,6 +105,7 @@ export function trackInitiateCheckout(
   value: number,
   lead?: MetritoLead,
 ) {
+  trackMetaInitiateCheckout(plan, planName, value);
   trackMetrito("InitiateCheckout", {
     data: productPayload(plan, planName, value),
     lead,
@@ -110,6 +120,7 @@ export function trackAddPaymentInfo(
   paymentMethod: "pix" | "creditCard",
   lead?: MetritoLead,
 ) {
+  trackMetaAddPaymentInfo(plan, planName, value, paymentMethod);
   trackMetrito("AddPaymentInfo", {
     data: {
       ...productPayload(plan, planName, value),
@@ -134,6 +145,7 @@ export function trackPurchase(
     lead?: MetritoLead;
   },
 ) {
+  trackMetaPurchase(plan, planName, value, orderId, paymentMethod);
   trackMetrito("Purchase", {
     data: {
       ...productPayload(plan, planName, value),
