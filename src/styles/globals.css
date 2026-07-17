@@ -1,0 +1,123 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #0d1b3d;
+  --color-ink-soft: #152447;
+  --color-ink-deep: #091428;
+  --color-body: #3d4a63;
+  --color-primary: #f5f9ff;
+  --color-secondary: #e8f7ee;
+  --color-cta: #25d366;
+  --color-cta-dark: #1ebe57;
+  --color-cta-darker: #128c3e;
+  --color-mark: #c8f5d8;
+  --color-banner: #dc2626;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-primary text-body antialiased overflow-x-clip;
+  }
+
+  ::selection {
+    @apply bg-cta text-ink;
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .text-pretty {
+    text-wrap: pretty;
+  }
+
+  .hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mark {
+    background-image: linear-gradient(
+      transparent 58%,
+      var(--color-mark) 58%,
+      var(--color-mark) 92%,
+      transparent 92%
+    );
+  }
+
+  .btn-shine {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      110deg,
+      transparent 20%,
+      rgba(255, 255, 255, 0.35) 45%,
+      transparent 70%
+    );
+    transform: translateX(-120%);
+    animation: shine 3.2s ease-in-out infinite;
+  }
+
+  @keyframes shine {
+    0%,
+    55% {
+      transform: translateX(-120%);
+    }
+    100% {
+      transform: translateX(120%);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+
+  .animate-marquee {
+    animation: marquee 55s linear infinite;
+  }
+
+  .animate-marquee-reverse {
+    animation: marquee-reverse 55s linear infinite;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-marquee,
+    .animate-marquee-reverse,
+    .btn-shine::after {
+      animation: none !important;
+    }
+  }
+}
