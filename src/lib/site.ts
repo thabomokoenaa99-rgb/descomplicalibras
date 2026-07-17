@@ -12,8 +12,8 @@ export const SITE = {
     savings: "269,10",
   },
   checkout: {
-    basic: process.env.NEXT_PUBLIC_CHECKOUT_BASIC ?? "#oferta",
-    complete: process.env.NEXT_PUBLIC_CHECKOUT_COMPLETE ?? "#oferta",
+    basic: process.env.NEXT_PUBLIC_CHECKOUT_BASIC || "/checkout/basico",
+    complete: process.env.NEXT_PUBLIC_CHECKOUT_COMPLETE || "/checkout/completo",
   },
 } as const;
 
