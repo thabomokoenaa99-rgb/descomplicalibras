@@ -1,7 +1,7 @@
 export const SITE = {
   name: "Descomplica Libras",
   legalName: "Descomplica Libras Brasil",
-  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://descomplicallibras.com.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://descomplicalibras.shop",
   locale: "pt_BR",
   rating: "4.9/5",
   students: "2.847",
