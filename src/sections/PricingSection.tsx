@@ -17,22 +17,22 @@ export function PricingSection() {
           {copy.pricing.title}
         </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 items-stretch max-w-md md:max-w-4xl mx-auto px-2 sm:px-0">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-0 items-stretch max-w-lg md:max-w-4xl mx-auto px-1 sm:px-0">
           {/* Basic */}
-          <div className="bg-white border border-zinc-200 p-6 sm:p-10 rounded-[2.5rem] md:rounded-r-none md:border-r-0 relative flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
+          <div className="bg-white border border-zinc-200 p-5 sm:p-10 rounded-[2.5rem] md:rounded-r-none md:border-r-0 relative flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.06)]">
             <div>
-              <h3 className="text-lg sm:text-xl font-bold text-body/60 mb-5 text-center leading-snug tracking-widest uppercase">
+              <h3 className="text-lg sm:text-xl font-bold text-body/60 mb-4 sm:mb-5 text-center leading-snug tracking-widest uppercase">
                 {copy.pricing.basic.name}
               </h3>
-              <div className="w-full mb-6 flex items-center justify-center pointer-events-none overflow-hidden py-2">
+              <div className="w-full mb-5 sm:mb-6 flex items-center justify-center pointer-events-none px-1">
                 <Image
                   src="/images/mockup/produto-principal.webp"
-                  alt="Mockup do Plano Básico"
-                  width={680}
-                  height={780}
+                  alt="Mockup do Plano Básico — +300 Mapas Mentais Visuais"
+                  width={1024}
+                  height={1024}
                   loading="lazy"
-                  sizes="20rem"
-                  className="w-full max-w-[20rem] h-auto object-contain drop-shadow-[0_8px_20px_rgba(13,27,61,0.10)]"
+                  sizes="(max-width: 640px) 58vw, 14rem"
+                  className="w-[min(100%,14rem)] sm:max-w-[15rem] h-auto object-contain drop-shadow-[0_8px_20px_rgba(13,27,61,0.10)]"
                 />
               </div>
               <ul className="space-y-4 mb-8 text-sm font-semibold text-body">
@@ -84,15 +84,15 @@ export function PricingSection() {
                 {copy.pricing.complete.name}
               </h3>
 
-              <div className="w-full flex items-center justify-center mb-7 mt-2 pointer-events-none">
+              <div className="w-full flex items-center justify-center mb-6 sm:mb-7 mt-2 pointer-events-none px-0 sm:px-1">
                 <Image
                   src="/images/mockup/hero-bundle.webp"
-                  alt="Mockup do Plano Completo"
-                  width={680}
-                  height={780}
+                  alt="Mockup do Plano Completo — biblioteca +300 mapas mentais e 4 bônus"
+                  width={1024}
+                  height={731}
                   loading="lazy"
-                  sizes="24rem"
-                  className="w-full max-w-sm h-auto object-contain drop-shadow-[0_15px_30px_rgba(13,27,61,0.14)] group-hover:scale-[1.03] transition-transform duration-500"
+                  sizes="(max-width: 640px) 94vw, 24rem"
+                  className="w-full max-w-[min(100%,22rem)] sm:max-w-sm h-auto object-contain drop-shadow-[0_15px_30px_rgba(13,27,61,0.14)] group-hover:scale-[1.03] transition-transform duration-500"
                 />
               </div>
 

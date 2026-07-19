@@ -5,6 +5,7 @@ export type BonusItem = {
   title: string;
   text: string;
   image: string;
+  originalPrice: number;
 };
 
 export type FaqItem = {

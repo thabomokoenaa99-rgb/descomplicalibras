@@ -18,10 +18,10 @@ export const SITE = {
 } as const;
 
 export const SEO = {
-  title: "Descomplica Libras | +100 Mapas Mentais Visuais para aprender Libras",
+  title: "Descomplica Libras | +300 Mapas Mentais Visuais para aprender Libras",
   description:
-    "+100 Mapas Mentais Visuais para dominar Libras de forma rápida e simples. Perfeito para quem começa do zero e quer só os sinais que realmente usa.",
-  ogTitle: "Descomplica Libras | +100 Mapas Mentais Visuais",
+    "+300 Mapas Mentais Visuais para dominar Libras de forma rápida e simples. Perfeito para quem começa do zero e quer só os sinais que realmente usa.",
+  ogTitle: "Descomplica Libras | +300 Mapas Mentais Visuais",
   ogDescription:
     "Domine Libras de forma rápida, visual e simples — sem cursos intermináveis.",
 } as const;

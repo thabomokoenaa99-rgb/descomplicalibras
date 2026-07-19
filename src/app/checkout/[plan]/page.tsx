@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckoutForm } from "@/components/CheckoutForm";
+import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { MetritoCheckoutTracker } from "@/components/MetritoCheckoutTracker";
 import { PLANS, isPlanSlug } from "@/lib/hoopay";
 import { SITE } from "@/lib/site";
@@ -12,14 +13,14 @@ const PLAN_UI = {
     name: "Plano Básico",
     amountLabel: `R$ ${SITE.prices.basic}`,
     image: "/images/mockup/produto-principal.webp",
-    bullets: ["Biblioteca Digital com +100 Mapas Mentais Visuais de Libras"],
+    bullets: ["Biblioteca Digital com +300 Mapas Mentais Visuais de Libras"],
   },
   completo: {
     name: "Plano Completo + 4 Bônus",
     amountLabel: `R$ ${SITE.prices.complete}`,
     image: "/images/mockup/hero-bundle.webp",
     bullets: [
-      "Biblioteca Digital com +100 Mapas Mentais Visuais",
+      "Biblioteca Digital com +300 Mapas Mentais Visuais",
       "4 bônus exclusivos inclusos",
       "Acesso imediato e vitalício",
     ],
@@ -60,9 +61,9 @@ export default async function CheckoutPage({
           <Image
             src={ui.image}
             alt={`Mockup do ${ui.name}`}
-            width={96}
-            height={110}
-            className="w-20 h-auto object-contain shrink-0"
+            width={plan === "basico" ? 1024 : 1024}
+            height={plan === "basico" ? 1024 : 731}
+            className={`shrink-0 h-auto object-contain ${plan === "basico" ? "w-[4.5rem] sm:w-20" : "w-24 sm:w-28"}`}
           />
           <div className="min-w-0">
             <h1 className="text-lg sm:text-xl font-extrabold text-ink leading-snug">{ui.name}</h1>
@@ -86,6 +87,11 @@ export default async function CheckoutPage({
           amountLabel={ui.amountLabel}
           amount={PLANS[plan].amount}
           enableCreditCard={process.env.ENABLE_CREDIT_CARD !== "false"}
+        />
+
+        <TestimonialsSection
+          className="mt-8 sm:mt-10"
+          containerClassName="max-w-lg mx-auto"
         />
 
         <p className="mt-6 text-center text-xs text-body/60 flex items-center justify-center gap-2 flex-wrap">

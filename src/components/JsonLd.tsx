@@ -23,7 +23,7 @@ export function JsonLd() {
 
   const course = {
     "@type": "Course",
-    name: `${SITE.name} — +100 Mapas Mentais Visuais`,
+    name: `${SITE.name} — +300 Mapas Mentais Visuais`,
     description: SEO.description,
     provider: {
       "@type": "Organization",

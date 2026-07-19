@@ -28,19 +28,19 @@ export function HeroSection() {
           {copy.hero.rest} <span className="text-cta-darker">{copy.hero.accent}</span> {copy.hero.suffix}
         </h1>
 
-        <div className="relative w-full max-w-[26rem] sm:max-w-4xl mx-auto mt-2 sm:mt-4">
-          <div className="relative max-w-[26rem] sm:max-w-2xl mx-auto">
+        <div className="relative w-full max-w-[22rem] sm:max-w-4xl mx-auto mt-2 sm:mt-4">
+          <div className="relative max-w-[22rem] sm:max-w-3xl mx-auto">
             <div
               className="absolute inset-x-6 top-4 h-1/2 bg-gradient-to-tr from-cta/25 to-cta/10 blur-[70px] sm:blur-[110px] rounded-full -z-10 pointer-events-none"
               aria-hidden="true"
             />
             <Image
               src="/images/mockup/hero-bundle.webp"
-              alt="Descomplica Libras — pacote completo com biblioteca de mapas mentais visuais e bônus"
-              width={680}
-              height={780}
+              alt="Descomplica Libras — pacote completo com +300 mapas mentais visuais e bônus"
+              width={1024}
+              height={731}
               priority
-              sizes="(max-width: 640px) 90vw, 42rem"
+              sizes="(max-width: 640px) 92vw, 42rem"
               className="w-full h-auto object-contain"
             />
           </div>

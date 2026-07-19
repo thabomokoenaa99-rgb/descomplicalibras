@@ -28,12 +28,12 @@ export function ProductSection() {
             <div className="absolute inset-0 bg-cta/8 blur-[80px] rounded-full scale-110 pointer-events-none" aria-hidden="true" />
             <Image
               src="/images/mockup/produto-principal.webp"
-              alt="Visual do Descomplica Libras — biblioteca de mapas mentais"
-              width={680}
-              height={780}
+              alt="Visual do Descomplica Libras — +300 mapas mentais visuais"
+              width={1024}
+              height={1024}
               loading="lazy"
-              sizes="(max-width: 1024px) 90vw, 34rem"
-              className="w-full max-w-lg h-auto object-contain drop-shadow-[0_20px_40px_rgba(13,27,61,0.18)]"
+              sizes="(max-width: 1024px) 75vw, 28rem"
+              className="w-full max-w-[18rem] sm:max-w-md lg:max-w-lg h-auto object-contain drop-shadow-[0_20px_40px_rgba(13,27,61,0.18)]"
             />
           </div>
 

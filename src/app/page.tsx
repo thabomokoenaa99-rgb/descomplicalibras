@@ -10,6 +10,7 @@ import { HeroSection } from "@/sections/HeroSection";
 import { IdealForSection } from "@/sections/IdealForSection";
 import { PricingSection } from "@/sections/PricingSection";
 import { ProductSection } from "@/sections/ProductSection";
+import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { UrgencySection } from "@/sections/UrgencySection";
 
 export default function HomePage() {
@@ -27,6 +28,7 @@ export default function HomePage() {
         <BonusesSection />
         <PricingSection />
         <FaqSection />
+        <TestimonialsSection />
         <FooterSection />
       </main>
       <StickyCta />
