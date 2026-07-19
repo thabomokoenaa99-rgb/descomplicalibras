@@ -40,23 +40,39 @@ export function TestimonialsSection({
           </p>
         </div>
 
-        <div className="flex flex-col items-center gap-5 sm:grid sm:grid-cols-3 sm:items-stretch sm:gap-4 lg:gap-6">
-          {testimonials.map((item) => (
-            <div
-              key={item.src}
-              className="w-full max-w-[20rem] sm:max-w-none rounded-2xl overflow-hidden shadow-[0_8px_24px_rgba(13,27,61,0.10)] border border-zinc-200/80 bg-white"
-            >
-              <Image
-                src={item.src}
-                alt={item.alt}
-                width={326}
-                height={418}
-                loading="lazy"
-                sizes="(max-width: 640px) 85vw, (max-width: 1024px) 28vw, 18rem"
-                className="w-full h-auto object-cover"
-              />
-            </div>
-          ))}
+        <div className="relative -mx-4 sm:mx-0">
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 z-10 w-6 sm:w-10 bg-gradient-to-r from-white to-transparent"
+            aria-hidden="true"
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 z-10 w-6 sm:w-10 bg-gradient-to-l from-white to-transparent"
+            aria-hidden="true"
+          />
+
+          <div
+            className="flex gap-4 overflow-x-auto hide-scrollbar snap-x snap-mandatory scroll-smooth px-4 sm:px-2 pb-2 lg:justify-center lg:overflow-visible lg:snap-none"
+            role="list"
+            aria-label="Depoimentos de clientes"
+          >
+            {testimonials.map((item) => (
+              <div
+                key={item.src}
+                role="listitem"
+                className="w-[78vw] max-w-[18rem] shrink-0 snap-center rounded-2xl overflow-hidden shadow-[0_8px_24px_rgba(13,27,61,0.10)] border border-zinc-200/80 bg-white lg:w-[16.5rem] lg:max-w-none lg:shrink-0"
+              >
+                <Image
+                  src={item.src}
+                  alt={item.alt}
+                  width={326}
+                  height={418}
+                  loading="lazy"
+                  sizes="(max-width: 1024px) 78vw, 16.5rem"
+                  className="w-full h-auto object-cover"
+                />
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </section>

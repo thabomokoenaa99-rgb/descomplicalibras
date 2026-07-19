@@ -26,9 +26,9 @@ export default function HomePage() {
         <ProductSection />
         <BonusesSection />
         <PricingSection />
+        <TestimonialsSection />
         <IdealForSection />
         <FaqSection />
-        <TestimonialsSection />
         <FooterSection />
       </main>
       <StickyCta />
