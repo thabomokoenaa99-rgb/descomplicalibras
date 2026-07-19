@@ -23,10 +23,10 @@ export default function HomePage() {
         <CarouselSection />
         <BenefitsSection />
         <UrgencySection />
-        <IdealForSection />
         <ProductSection />
         <BonusesSection />
         <PricingSection />
+        <IdealForSection />
         <FaqSection />
         <TestimonialsSection />
         <FooterSection />
