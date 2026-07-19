@@ -2,9 +2,11 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { CheckoutBasicUpsell } from "@/components/CheckoutBasicUpsell";
 import { CheckoutForm } from "@/components/CheckoutForm";
-import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { MetritoCheckoutTracker } from "@/components/MetritoCheckoutTracker";
+import { BonusesSection } from "@/sections/BonusesSection";
+import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { PLANS, isPlanSlug } from "@/lib/hoopay";
 import { SITE } from "@/lib/site";
 
@@ -48,14 +50,24 @@ export default async function CheckoutPage({
   const ui = PLAN_UI[plan];
 
   return (
-    <main className="min-h-screen bg-primary px-4 py-8 sm:py-12">
-      <div className="max-w-lg mx-auto">
+    <main className="min-h-screen bg-primary">
+      {plan === "completo" && (
+        <BonusesSection
+          showCta={false}
+          className="bg-secondary py-8 sm:py-12 px-4 overflow-hidden relative"
+          containerClassName="max-w-5xl mx-auto"
+        />
+      )}
+
+      <div className="max-w-lg mx-auto px-4 py-8 sm:py-12">
         <Link
           href="/#oferta"
           className="inline-flex items-center gap-1.5 text-cta-darker font-bold text-sm mb-6 hover:underline"
         >
           ← Voltar para os planos
         </Link>
+
+        {plan === "basico" && <CheckoutBasicUpsell />}
 
         <div className="bg-white rounded-[2rem] border border-zinc-200 p-5 sm:p-6 mb-6 flex items-center gap-4 shadow-sm">
           <Image
