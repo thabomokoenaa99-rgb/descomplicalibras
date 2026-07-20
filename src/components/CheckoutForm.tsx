@@ -4,6 +4,11 @@ import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import {
+  clearPixSession,
+  persistPixSession,
+  readPixSession,
+} from "@/lib/checkout-pix-session";
+import {
   getThankYouUrl,
   persistCheckoutSuccess,
   type CheckoutSuccessPayload,
@@ -112,6 +117,7 @@ export function CheckoutForm({
   const [copied, setCopied] = useState(false);
   const [pixChecking, setPixChecking] = useState(false);
   const [pixCheckNotice, setPixCheckNotice] = useState<string | null>(null);
+  const [pixRestored, setPixRestored] = useState(false);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const maxInstallments = amount >= 50 ? 6 : amount >= 30 ? 3 : 1;
@@ -128,6 +134,7 @@ export function CheckoutForm({
         lead: toMetritoLead(form),
       };
       persistCheckoutSuccess(payload);
+      clearPixSession();
       await firePurchaseOnce(payload);
       router.push(getThankYouUrl(plan, orderId, paymentMethod));
     },
@@ -199,6 +206,36 @@ export function CheckoutForm({
       document.removeEventListener("visibilitychange", onVisible);
     };
   }, [pix, checkPixPayment]);
+
+  useEffect(() => {
+    const saved = readPixSession();
+    if (!saved || saved.plan !== plan || pix) return;
+
+    setForm(saved.form);
+    setPix(saved.pix);
+    setMethod("pix");
+    setPixRestored(true);
+    persistCheckoutSuccess({
+      plan: saved.plan,
+      planName: saved.planName,
+      amount: saved.amount,
+      orderId: saved.pix.orderUUID,
+      paymentMethod: "pix",
+      email: saved.form.email,
+      lead: toMetritoLead(saved.form),
+    });
+  }, [plan, pix]);
+
+  function savePixSession(pixData: PixData) {
+    persistPixSession({
+      plan,
+      planName,
+      amount,
+      form,
+      pix: pixData,
+      savedAt: Date.now(),
+    });
+  }
 
   async function lookupCep(raw: string) {
     const cep = raw.replace(/\D/g, "");
@@ -272,7 +309,9 @@ export function CheckoutForm({
         email: form.email,
         lead,
       });
-      setPix(data);
+      const pixData = data as PixData;
+      savePixSession(pixData);
+      setPix(pixData);
     } catch {
       setError("Falha de conexão. Verifique sua internet e tente de novo.");
     } finally {
@@ -296,6 +335,13 @@ export function CheckoutForm({
         <p className="text-body text-sm mb-5">
           {planName} — <strong className="text-cta-darker">{amountLabel}</strong>
         </p>
+
+        {pixRestored && (
+          <p className="mb-4 text-xs sm:text-sm font-semibold text-ink bg-cta/10 border border-cta/25 rounded-xl px-4 py-3 leading-relaxed">
+            Recuperamos seu PIX desta compra. Se você já pagou, clique em{" "}
+            <strong>Já paguei — Verificar pagamento</strong>.
+          </p>
+        )}
 
         {pix.pixQrCode && (
           <div className="mx-auto w-52 h-52 sm:w-60 sm:h-60 rounded-2xl border border-zinc-200 p-2 mb-5 bg-white">
@@ -350,7 +396,9 @@ export function CheckoutForm({
         <button
           type="button"
           onClick={() => {
+            clearPixSession();
             setPix(null);
+            setPixRestored(false);
             setError(null);
           }}
           className="mt-3 text-sm font-bold text-body/70 hover:text-ink underline"

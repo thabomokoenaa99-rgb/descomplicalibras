@@ -4,6 +4,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { CheckoutBasicUpsell } from "@/components/CheckoutBasicUpsell";
 import { CheckoutForm } from "@/components/CheckoutForm";
+import { CheckoutOrderRecovery } from "@/components/CheckoutOrderRecovery";
 import { MetritoCheckoutTracker } from "@/components/MetritoCheckoutTracker";
 import { BonusesSection } from "@/sections/BonusesSection";
 import { TestimonialsSection } from "@/sections/TestimonialsSection";
@@ -68,6 +69,8 @@ export default async function CheckoutPage({
         </Link>
 
         {plan === "basico" && <CheckoutBasicUpsell />}
+
+        <CheckoutOrderRecovery plan={plan} />
 
         <div className="bg-white rounded-[2rem] border border-zinc-200 p-5 sm:p-6 mb-6 flex items-center gap-4 shadow-sm">
           <Image
