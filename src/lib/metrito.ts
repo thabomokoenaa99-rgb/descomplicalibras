@@ -150,15 +150,14 @@ export function trackPurchase(
   },
 ) {
   trackMetaPurchase(plan, planName, value, orderId, paymentMethod);
-  trackMetrito("Website Purchase", {
+  trackMetrito("Purchase", {
     data: {
       ...productPayload(plan, planName, value),
       order_id: orderId,
       payment_method: paymentMethod,
     },
     lead,
-    facebookName: "Website Purchase",
-    trackCustom: true,
+    facebookName: "Purchase",
   });
 }
 

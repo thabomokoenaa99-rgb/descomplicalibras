@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import {
   getThankYouUrl,
   persistCheckoutSuccess,
+  type CheckoutSuccessPayload,
 } from "@/lib/checkout-success";
 import {
   toMetritoLead,
   trackAddPaymentInfo,
   trackInitiateCheckout,
 } from "@/lib/metrito";
+import { firePurchaseOnce } from "@/lib/purchase-tracking";
 
 type PixData = {
   method: "pix";
@@ -112,8 +114,8 @@ export function CheckoutForm({
   const maxInstallments = amount >= 50 ? 6 : amount >= 30 ? 3 : 1;
 
   const goToThankYou = useCallback(
-    (orderId: string | undefined, paymentMethod: Method) => {
-      persistCheckoutSuccess({
+    async (orderId: string | undefined, paymentMethod: Method) => {
+      const payload: CheckoutSuccessPayload = {
         plan,
         planName,
         amount,
@@ -121,7 +123,9 @@ export function CheckoutForm({
         paymentMethod,
         email: form.email,
         lead: toMetritoLead(form),
-      });
+      };
+      persistCheckoutSuccess(payload);
+      await firePurchaseOnce(payload);
       router.push(getThankYouUrl(plan, orderId, paymentMethod));
     },
     [plan, planName, amount, form, router],

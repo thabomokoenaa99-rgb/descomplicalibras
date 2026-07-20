@@ -42,6 +42,28 @@ export function ensureMetaPixel(trackPageView = false) {
   return true;
 }
 
+export function waitForMetaPixel(maxMs = 6000): Promise<boolean> {
+  if (typeof window === "undefined") return Promise.resolve(false);
+
+  return new Promise((resolve) => {
+    const started = Date.now();
+
+    const tick = () => {
+      if (ensureMetaPixel()) {
+        resolve(true);
+        return;
+      }
+      if (Date.now() - started >= maxMs) {
+        resolve(false);
+        return;
+      }
+      window.setTimeout(tick, 150);
+    };
+
+    tick();
+  });
+}
+
 function callFbq(
   eventName: string,
   data: MetaEventData = {},
@@ -58,24 +80,6 @@ function callFbq(
   }
 
   fbq("track", eventName, data);
-}
-
-function callFbqCustom(
-  eventName: string,
-  data: MetaEventData = {},
-  eventId?: string,
-) {
-  if (typeof window === "undefined") return;
-  ensureMetaPixel();
-  const fbq = window.fbq;
-  if (typeof fbq !== "function") return;
-
-  if (eventId) {
-    fbq("trackCustom", eventName, data, { eventID: eventId });
-    return;
-  }
-
-  fbq("trackCustom", eventName, data);
 }
 
 export function trackMetaViewContent(plan: string, planName: string, value: number) {
@@ -109,8 +113,8 @@ export function trackMetaPurchase(
   orderId?: string,
   paymentMethod?: "pix" | "creditCard",
 ) {
-  callFbqCustom(
-    "Website Purchase",
+  callFbq(
+    "Purchase",
     {
       ...productPayload(plan, planName, value),
       ...(orderId ? { order_id: orderId } : {}),

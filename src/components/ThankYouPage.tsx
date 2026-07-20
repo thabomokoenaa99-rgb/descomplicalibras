@@ -4,23 +4,36 @@ import Link from "next/link";
 import { useSearchParams } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import {
-  hasPurchaseBeenTracked,
-  markPurchaseTracked,
   readCheckoutSuccess,
   type CheckoutSuccessPayload,
 } from "@/lib/checkout-success";
 import { isPlanSlug, PLANS } from "@/lib/hoopay";
-import { trackPurchase } from "@/lib/metrito";
+import { firePurchaseOnce } from "@/lib/purchase-tracking";
 import { SITE } from "@/lib/site";
 
 type ViewState = {
   payload: CheckoutSuccessPayload;
-  verified: boolean;
 };
 
 function parseMethod(value: string | null): "pix" | "creditCard" | null {
   if (value === "pix" || value === "creditCard") return value;
   return null;
+}
+
+async function verifyOrderPaid(orderId: string, attempts = 5): Promise<boolean> {
+  for (let i = 0; i < attempts; i += 1) {
+    try {
+      const res = await fetch(`/api/checkout/status?order=${orderId}`);
+      const data = (await res.json()) as { status?: string };
+      if (data.status === "paid" || data.status === "approved") return true;
+    } catch {
+      // retry
+    }
+    if (i < attempts - 1) {
+      await new Promise((r) => setTimeout(r, 2000));
+    }
+  }
+  return false;
 }
 
 export function ThankYouPage() {
@@ -64,58 +77,31 @@ export function ThankYouPage() {
         lead: stored?.lead,
       };
 
+      // Veio do checkout: pagamento já foi confirmado antes do redirect.
+      if (stored?.plan === planSlug) {
+        await firePurchaseOnce(payload);
+        if (!cancelled) {
+          setView({ payload });
+          setLoading(false);
+        }
+        return;
+      }
+
+      // Link direto com order id — consulta API com retry.
       if (orderId) {
-        if (hasPurchaseBeenTracked(orderId)) {
+        const paid = await verifyOrderPaid(orderId);
+        if (paid) {
+          await firePurchaseOnce(payload);
           if (!cancelled) {
-            setView({ payload, verified: true });
+            setView({ payload });
             setLoading(false);
           }
           return;
-        }
-
-        let paid = paymentMethod === "creditCard" && stored?.plan === planSlug;
-
-        if (!paid) {
-          try {
-            const res = await fetch(`/api/checkout/status?order=${orderId}`);
-            const data = (await res.json()) as { status?: string };
-            paid = data.status === "paid" || data.status === "approved";
-          } catch {
-            if (!cancelled) {
-              setInvalid(true);
-              setLoading(false);
-            }
-            return;
-          }
-        }
-
-        if (!paid) {
-          if (!cancelled) {
-            setInvalid(true);
-            setLoading(false);
-          }
-          return;
-        }
-
-        trackPurchase(payload.plan, payload.planName, payload.amount, {
-          orderId,
-          paymentMethod: payload.paymentMethod,
-          lead: payload.lead,
-        });
-        markPurchaseTracked(orderId);
-      } else if (stored?.plan === planSlug) {
-        const fallbackKey = `session_${planSlug}_${stored.email}`;
-        if (!hasPurchaseBeenTracked(fallbackKey)) {
-          trackPurchase(payload.plan, payload.planName, payload.amount, {
-            paymentMethod: payload.paymentMethod,
-            lead: payload.lead,
-          });
-          markPurchaseTracked(fallbackKey);
         }
       }
 
       if (!cancelled) {
-        setView({ payload, verified: true });
+        setInvalid(true);
         setLoading(false);
       }
     }
