@@ -2,11 +2,15 @@
 
 import Image from "next/image";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
+import {
+  getThankYouUrl,
+  persistCheckoutSuccess,
+} from "@/lib/checkout-success";
 import {
   toMetritoLead,
   trackAddPaymentInfo,
   trackInitiateCheckout,
-  trackPurchase,
 } from "@/lib/metrito";
 
 type PixData = {
@@ -79,6 +83,7 @@ export function CheckoutForm({
   amount,
   enableCreditCard = true,
 }: Props) {
+  const router = useRouter();
   const [method, setMethod] = useState<Method>("pix");
   const [form, setForm] = useState({ name: "", email: "", phone: "", document: "" });
   const [card, setCard] = useState({
@@ -102,38 +107,36 @@ export function CheckoutForm({
   const [error, setError] = useState<string | null>(null);
   const [pix, setPix] = useState<PixData | null>(null);
   const [copied, setCopied] = useState(false);
-  const [paid, setPaid] = useState(false);
-  const [paidEmail, setPaidEmail] = useState("");
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const purchaseTrackedRef = useRef(false);
 
   const maxInstallments = amount >= 50 ? 6 : amount >= 30 ? 3 : 1;
 
-  const trackPurchaseOnce = useCallback(
+  const goToThankYou = useCallback(
     (orderId: string | undefined, paymentMethod: Method) => {
-      if (purchaseTrackedRef.current) return;
-      purchaseTrackedRef.current = true;
-      trackPurchase(plan, planName, amount, {
+      persistCheckoutSuccess({
+        plan,
+        planName,
+        amount,
         orderId,
         paymentMethod,
+        email: form.email,
         lead: toMetritoLead(form),
       });
+      router.push(getThankYouUrl(plan, orderId, paymentMethod));
     },
-    [plan, planName, amount, form],
+    [plan, planName, amount, form, router],
   );
 
   const confirmPixPayment = useCallback(
     (orderId: string) => {
-      setPaid(true);
-      setPaidEmail(form.email);
-      trackPurchaseOnce(orderId, "pix");
       if (pollRef.current) clearInterval(pollRef.current);
+      goToThankYou(orderId, "pix");
     },
-    [form.email, trackPurchaseOnce],
+    [goToThankYou],
   );
 
   useEffect(() => {
-    if (!pix || paid) return;
+    if (!pix) return;
     pollRef.current = setInterval(async () => {
       try {
         const res = await fetch(`/api/checkout/status?order=${pix.orderUUID}`);
@@ -148,7 +151,7 @@ export function CheckoutForm({
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
     };
-  }, [pix, paid, confirmPixPayment]);
+  }, [pix, confirmPixPayment]);
 
   async function lookupCep(raw: string) {
     const cep = raw.replace(/\D/g, "");
@@ -208,9 +211,7 @@ export function CheckoutForm({
 
       if (data.method === "creditCard" || data.status === "paid") {
         trackAddPaymentInfo(plan, planName, amount, "creditCard", lead);
-        trackPurchaseOnce(data.orderUUID as string | undefined, "creditCard");
-        setPaidEmail(form.email);
-        setPaid(true);
+        goToThankYou(data.orderUUID as string | undefined, "creditCard");
         return;
       }
 
@@ -228,21 +229,6 @@ export function CheckoutForm({
     await navigator.clipboard.writeText(pix.pixPayload);
     setCopied(true);
     setTimeout(() => setCopied(false), 2500);
-  }
-
-  if (paid) {
-    return (
-      <div className="bg-white rounded-[2rem] border-[3px] border-cta p-8 text-center shadow-[0_15px_40px_rgba(13,27,61,0.15)]">
-        <span className="text-6xl block mb-4" aria-hidden="true">
-          ✅
-        </span>
-        <h2 className="text-2xl font-extrabold text-ink mb-2">Pagamento confirmado!</h2>
-        <p className="text-body text-sm sm:text-base leading-relaxed">
-          Seu acesso ao <strong>{planName}</strong> será enviado para{" "}
-          <strong>{paidEmail || form.email}</strong> em instantes. Confira também a caixa de spam.
-        </p>
-      </div>
-    );
   }
 
   if (pix) {

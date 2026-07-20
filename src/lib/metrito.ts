@@ -12,6 +12,8 @@ type MetritoLead = {
   doc?: string;
 };
 
+export type { MetritoLead };
+
 type MetritoEventData = Record<string, unknown>;
 
 type MetritoTrackPayload = {
