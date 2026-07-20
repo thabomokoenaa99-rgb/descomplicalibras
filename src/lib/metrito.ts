@@ -1,3 +1,4 @@
+import { buildPixelProductPayload } from "@/lib/pixel-commerce";
 import {
   trackMetaAddPaymentInfo,
   trackMetaInitiateCheckout,
@@ -84,21 +85,10 @@ function trackMetrito(
   mtrt(eventName, payload);
 }
 
-function productPayload(plan: string, planName: string, value: number) {
-  return {
-    content_name: planName,
-    content_ids: [plan],
-    content_type: "product",
-    value,
-    currency: "BRL",
-    num_items: 1,
-  };
-}
-
-export function trackViewContent(plan: string, planName: string, value: number) {
-  trackMetaViewContent(plan, planName, value);
+export function trackViewContent(plan: string, planName: string, _value?: number) {
+  trackMetaViewContent(plan, planName);
   trackMetrito("ViewContent", {
-    data: productPayload(plan, planName, value),
+    data: buildPixelProductPayload(plan, planName),
     facebookName: "ViewContent",
   });
 }
@@ -106,12 +96,12 @@ export function trackViewContent(plan: string, planName: string, value: number) 
 export function trackInitiateCheckout(
   plan: string,
   planName: string,
-  value: number,
+  _value?: number,
   lead?: MetritoLead,
 ) {
-  trackMetaInitiateCheckout(plan, planName, value);
+  trackMetaInitiateCheckout(plan, planName);
   trackMetrito("InitiateCheckout", {
-    data: productPayload(plan, planName, value),
+    data: buildPixelProductPayload(plan, planName),
     lead,
     facebookName: "InitiateCheckout",
   });
@@ -120,15 +110,16 @@ export function trackInitiateCheckout(
 export function trackAddPaymentInfo(
   plan: string,
   planName: string,
-  value: number,
-  paymentMethod: "pix" | "creditCard",
+  _value?: number,
+  paymentMethod?: "pix" | "creditCard",
   lead?: MetritoLead,
 ) {
-  trackMetaAddPaymentInfo(plan, planName, value, paymentMethod);
+  const method = paymentMethod ?? "pix";
+  trackMetaAddPaymentInfo(plan, planName, method);
   trackMetrito("AddPaymentInfo", {
     data: {
-      ...productPayload(plan, planName, value),
-      payment_method: paymentMethod,
+      ...buildPixelProductPayload(plan, planName),
+      payment_method: method,
     },
     lead,
     facebookName: "AddPaymentInfo",
@@ -138,7 +129,7 @@ export function trackAddPaymentInfo(
 export function trackPurchase(
   plan: string,
   planName: string,
-  value: number,
+  _value: number,
   {
     orderId,
     paymentMethod,
@@ -149,10 +140,10 @@ export function trackPurchase(
     lead?: MetritoLead;
   },
 ) {
-  trackMetaPurchase(plan, planName, value, orderId, paymentMethod);
+  trackMetaPurchase(plan, planName, orderId, paymentMethod);
   trackMetrito("Purchase", {
     data: {
-      ...productPayload(plan, planName, value),
+      ...buildPixelProductPayload(plan, planName),
       order_id: orderId,
       payment_method: paymentMethod,
     },

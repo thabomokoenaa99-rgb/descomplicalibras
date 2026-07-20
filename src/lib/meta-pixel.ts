@@ -1,3 +1,5 @@
+import { buildPixelProductPayload } from "@/lib/pixel-commerce";
+
 export const META_PIXEL_ID = "1701264531180748";
 
 export type MetaEventData = Record<string, string | number | string[] | undefined>;
@@ -8,17 +10,6 @@ declare global {
     __metaPixels?: Record<string, boolean>;
     __metaPageView?: boolean;
   }
-}
-
-function productPayload(plan: string, planName: string, value: number): MetaEventData {
-  return {
-    content_name: planName,
-    content_ids: [plan],
-    content_type: "product",
-    value,
-    currency: "BRL",
-    num_items: 1,
-  };
 }
 
 export function ensureMetaPixel(trackPageView = false) {
@@ -82,26 +73,21 @@ function callFbq(
   fbq("track", eventName, data);
 }
 
-export function trackMetaViewContent(plan: string, planName: string, value: number) {
-  callFbq("ViewContent", productPayload(plan, planName, value));
+export function trackMetaViewContent(plan: string, planName: string) {
+  callFbq("ViewContent", buildPixelProductPayload(plan, planName));
 }
 
-export function trackMetaInitiateCheckout(
-  plan: string,
-  planName: string,
-  value: number,
-) {
-  callFbq("InitiateCheckout", productPayload(plan, planName, value));
+export function trackMetaInitiateCheckout(plan: string, planName: string) {
+  callFbq("InitiateCheckout", buildPixelProductPayload(plan, planName));
 }
 
 export function trackMetaAddPaymentInfo(
   plan: string,
   planName: string,
-  value: number,
   paymentMethod: "pix" | "creditCard",
 ) {
   callFbq("AddPaymentInfo", {
-    ...productPayload(plan, planName, value),
+    ...buildPixelProductPayload(plan, planName),
     payment_method: paymentMethod,
   });
 }
@@ -109,14 +95,13 @@ export function trackMetaAddPaymentInfo(
 export function trackMetaPurchase(
   plan: string,
   planName: string,
-  value: number,
   orderId?: string,
   paymentMethod?: "pix" | "creditCard",
 ) {
   callFbq(
     "Purchase",
     {
-      ...productPayload(plan, planName, value),
+      ...buildPixelProductPayload(plan, planName),
       ...(orderId ? { order_id: orderId } : {}),
       ...(paymentMethod ? { payment_method: paymentMethod } : {}),
     },
