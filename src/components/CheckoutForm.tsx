@@ -13,6 +13,7 @@ import {
   trackAddPaymentInfo,
   trackInitiateCheckout,
 } from "@/lib/metrito";
+import { isPaymentConfirmed } from "@/lib/payment-status";
 import { firePurchaseOnce } from "@/lib/purchase-tracking";
 
 type PixData = {
@@ -109,6 +110,8 @@ export function CheckoutForm({
   const [error, setError] = useState<string | null>(null);
   const [pix, setPix] = useState<PixData | null>(null);
   const [copied, setCopied] = useState(false);
+  const [pixChecking, setPixChecking] = useState(false);
+  const [pixCheckNotice, setPixCheckNotice] = useState<string | null>(null);
   const pollRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const maxInstallments = amount >= 50 ? 6 : amount >= 30 ? 3 : 1;
@@ -139,23 +142,63 @@ export function CheckoutForm({
     [goToThankYou],
   );
 
+  const checkPixPayment = useCallback(
+    async (orderId: string, manual = false) => {
+      if (manual) {
+        setPixChecking(true);
+        setPixCheckNotice(null);
+      }
+
+      try {
+        const res = await fetch(`/api/checkout/status?order=${orderId}`, {
+          cache: "no-store",
+        });
+        const data = (await res.json()) as { status?: string; error?: string };
+
+        if (isPaymentConfirmed(data.status)) {
+          confirmPixPayment(orderId);
+          return true;
+        }
+
+        if (manual) {
+          setPixCheckNotice(
+            "Pagamento ainda não identificado. Se você acabou de pagar, aguarde alguns segundos e clique de novo.",
+          );
+        }
+        return false;
+      } catch {
+        if (manual) {
+          setPixCheckNotice("Não foi possível verificar agora. Tente novamente em instantes.");
+        }
+        return false;
+      } finally {
+        if (manual) setPixChecking(false);
+      }
+    },
+    [confirmPixPayment],
+  );
+
   useEffect(() => {
     if (!pix) return;
-    pollRef.current = setInterval(async () => {
-      try {
-        const res = await fetch(`/api/checkout/status?order=${pix.orderUUID}`);
-        const data = await res.json();
-        if (data.status === "paid" || data.status === "approved") {
-          confirmPixPayment(pix.orderUUID);
-        }
-      } catch {
-        // keep polling
+
+    void checkPixPayment(pix.orderUUID);
+
+    pollRef.current = setInterval(() => {
+      void checkPixPayment(pix.orderUUID);
+    }, 4000);
+
+    const onVisible = () => {
+      if (document.visibilityState === "visible") {
+        void checkPixPayment(pix.orderUUID);
       }
-    }, 8000);
+    };
+    document.addEventListener("visibilitychange", onVisible);
+
     return () => {
       if (pollRef.current) clearInterval(pollRef.current);
+      document.removeEventListener("visibilitychange", onVisible);
     };
-  }, [pix, confirmPixPayment]);
+  }, [pix, checkPixPayment]);
 
   async function lookupCep(raw: string) {
     const cep = raw.replace(/\D/g, "");
@@ -220,6 +263,15 @@ export function CheckoutForm({
       }
 
       trackAddPaymentInfo(plan, planName, amount, "pix", lead);
+      persistCheckoutSuccess({
+        plan,
+        planName,
+        amount,
+        orderId: data.orderUUID as string,
+        paymentMethod: "pix",
+        email: form.email,
+        lead,
+      });
       setPix(data);
     } catch {
       setError("Falha de conexão. Verifique sua internet e tente de novo.");
@@ -272,6 +324,28 @@ export function CheckoutForm({
         >
           {copied ? "✅ Código copiado!" : "📋 Copiar código PIX"}
         </button>
+
+        <button
+          type="button"
+          disabled={pixChecking}
+          onClick={() => void checkPixPayment(pix.orderUUID, true)}
+          className="mt-3 inline-flex items-center justify-center w-full bg-ink hover:bg-ink-soft disabled:opacity-60 disabled:cursor-not-allowed text-white font-extrabold rounded-full py-4 text-sm sm:text-base uppercase tracking-wide transition-colors shadow-[0_10px_24px_rgba(13,27,61,0.25)] focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-ink/30"
+        >
+          {pixChecking ? "Verificando pagamento…" : "✅ Já paguei — Verificar pagamento"}
+        </button>
+
+        {pixCheckNotice && (
+          <p role="status" className="mt-3 text-xs sm:text-sm text-body font-semibold leading-relaxed bg-primary border border-zinc-200 rounded-xl px-4 py-3">
+            {pixCheckNotice}
+          </p>
+        )}
+
+        <a
+          href={getThankYouUrl(plan, pix.orderUUID, "pix")}
+          className="mt-4 inline-block text-sm font-bold text-cta-darker hover:text-ink underline"
+        >
+          Já paguei e a página não atualizou? Acesse sua confirmação aqui
+        </a>
 
         <button
           type="button"

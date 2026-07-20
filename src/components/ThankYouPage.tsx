@@ -8,6 +8,7 @@ import {
   type CheckoutSuccessPayload,
 } from "@/lib/checkout-success";
 import { isPlanSlug, PLANS } from "@/lib/hoopay";
+import { isPaymentConfirmed } from "@/lib/payment-status";
 import { firePurchaseOnce } from "@/lib/purchase-tracking";
 import { SITE } from "@/lib/site";
 
@@ -25,7 +26,7 @@ async function verifyOrderPaid(orderId: string, attempts = 5): Promise<boolean> 
     try {
       const res = await fetch(`/api/checkout/status?order=${orderId}`);
       const data = (await res.json()) as { status?: string };
-      if (data.status === "paid" || data.status === "approved") return true;
+      if (isPaymentConfirmed(data.status)) return true;
     } catch {
       // retry
     }

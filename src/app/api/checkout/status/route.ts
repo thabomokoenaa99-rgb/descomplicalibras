@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { HOOPAY_API_URL, hoopayAuthHeader } from "@/lib/hoopay";
+import { extractHoopayPaymentStatus } from "@/lib/payment-status";
 import { enforceStatusRateLimit } from "@/lib/security/rate-limit";
 import { safeLog } from "@/lib/security/log";
 
@@ -23,12 +24,11 @@ export async function GET(req: NextRequest) {
     }
 
     const data = await res.json();
-    const status =
-      data?.status ?? data?.payment?.status ?? data?.charge?.status ?? "pending";
+    const status = extractHoopayPaymentStatus(data);
 
     return NextResponse.json(
       { status },
-      { headers: { "Cache-Control": "private, max-age=10" } },
+      { headers: { "Cache-Control": "private, no-store" } },
     );
   } catch (err) {
     safeLog("[checkout status] error", {
