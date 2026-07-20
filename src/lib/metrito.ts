@@ -52,10 +52,12 @@ function trackMetrito(
     data = {},
     lead,
     facebookName = eventName,
+    trackCustom = false,
   }: {
     data?: MetritoEventData;
     lead?: MetritoLead;
     facebookName?: string;
+    trackCustom?: boolean;
   } = {},
 ) {
   const mtrt = getMtrt();
@@ -67,7 +69,7 @@ function trackMetrito(
       facebook: {
         name: facebookName,
         data,
-        trackCustom: false,
+        trackCustom,
         actionSource: "website",
       },
     },
@@ -148,14 +150,15 @@ export function trackPurchase(
   },
 ) {
   trackMetaPurchase(plan, planName, value, orderId, paymentMethod);
-  trackMetrito("Purchase", {
+  trackMetrito("Website Purchase", {
     data: {
       ...productPayload(plan, planName, value),
       order_id: orderId,
       payment_method: paymentMethod,
     },
     lead,
-    facebookName: "Purchase",
+    facebookName: "Website Purchase",
+    trackCustom: true,
   });
 }
 

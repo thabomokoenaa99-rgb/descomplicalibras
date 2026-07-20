@@ -60,6 +60,24 @@ function callFbq(
   fbq("track", eventName, data);
 }
 
+function callFbqCustom(
+  eventName: string,
+  data: MetaEventData = {},
+  eventId?: string,
+) {
+  if (typeof window === "undefined") return;
+  ensureMetaPixel();
+  const fbq = window.fbq;
+  if (typeof fbq !== "function") return;
+
+  if (eventId) {
+    fbq("trackCustom", eventName, data, { eventID: eventId });
+    return;
+  }
+
+  fbq("trackCustom", eventName, data);
+}
+
 export function trackMetaViewContent(plan: string, planName: string, value: number) {
   callFbq("ViewContent", productPayload(plan, planName, value));
 }
@@ -91,8 +109,8 @@ export function trackMetaPurchase(
   orderId?: string,
   paymentMethod?: "pix" | "creditCard",
 ) {
-  callFbq(
-    "Purchase",
+  callFbqCustom(
+    "Website Purchase",
     {
       ...productPayload(plan, planName, value),
       ...(orderId ? { order_id: orderId } : {}),
