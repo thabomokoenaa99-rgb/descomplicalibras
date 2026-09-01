@@ -10,7 +10,7 @@ export const copy = {
   },
 
   hero: {
-    highlight: "+300 Mapas Mentais Visuais",
+    highlight: "+100 Mapas Mentais Visuais",
     rest: "para dominar",
     accent: "Libras",
     suffix: "de forma rápida e simples",
@@ -126,10 +126,10 @@ export const copy = {
     brand: "Descomplica Libras",
     titleAfter: ":",
     badge: "ACESSO IMEDIATO",
-    heading: "+300 Mapas Mentais Visuais de Libras",
+    heading: "+100 Mapas Mentais Visuais de Libras",
     intro: "Ao garantir hoje, você recebe:",
     features: [
-      "Biblioteca Digital com +300 Mapas Mentais Visuais",
+      "Biblioteca Digital com +100 Mapas Mentais Visuais",
       "Acesse por celular, computador, tablet ou baixe para imprimir",
       "Cumprimentos e Apresentações",
       "Primeiras Conversas em Libras",
@@ -191,7 +191,7 @@ export const copy = {
     basic: {
       name: "PLANO BÁSICO",
       features: [
-        "Acesso à Biblioteca Digital com +300 Mapas Mentais Visuais de Libras",
+        "Acesso à Biblioteca Digital com +100 Mapas Mentais Visuais de Libras",
       ],
       priceLabel: "Por apenas",
       cta: "QUERO O PLANO BÁSICO",
@@ -202,7 +202,7 @@ export const copy = {
       name: "PLANO COMPLETO",
       social: "🔥 + de 2.847 alunos\nescolheram este plano",
       features: [
-        "Biblioteca Digital com +300 Mapas Mentais Visuais",
+        "Biblioteca Digital com +100 Mapas Mentais Visuais",
         "Cumprimentos e Apresentações",
         "Primeiras Conversas em Libras",
         "Perguntas e Respostas Mais Usadas",
@@ -254,7 +254,7 @@ export const copy = {
       },
       {
         q: "O material é um curso em vídeo?",
-        a: "Não. O Descomplica Libras é uma biblioteca digital com mais de 300 mapas mentais visuais, feita para facilitar o aprendizado e a consulta rápida dos sinais.",
+        a: "Não. O Descomplica Libras é uma biblioteca digital com mais de 100 mapas mentais visuais, feita para facilitar o aprendizado e a consulta rápida dos sinais.",
       },
       {
         q: "Vou conseguir aprender sem fazer um curso longo?",

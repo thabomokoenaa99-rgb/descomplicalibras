@@ -16,14 +16,14 @@ const PLAN_UI = {
     name: "Plano Básico",
     amountLabel: `R$ ${SITE.prices.basic}`,
     image: "/images/mockup/produto-principal.webp",
-    bullets: ["Biblioteca Digital com +300 Mapas Mentais Visuais de Libras"],
+    bullets: ["Biblioteca Digital com +100 Mapas Mentais Visuais de Libras"],
   },
   completo: {
     name: "Plano Completo + 4 Bônus",
     amountLabel: `R$ ${SITE.prices.complete}`,
     image: "/images/mockup/hero-bundle.webp",
     bullets: [
-      "Biblioteca Digital com +300 Mapas Mentais Visuais",
+      "Biblioteca Digital com +100 Mapas Mentais Visuais",
       "4 bônus exclusivos inclusos",
       "Acesso imediato e vitalício",
     ],
