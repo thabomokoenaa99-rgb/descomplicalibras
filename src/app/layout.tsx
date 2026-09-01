@@ -35,9 +35,9 @@ export const metadata: Metadata = {
     images: [
       {
         url: "/images/mockup/hero-bundle.webp",
-        width: 1024,
-        height: 731,
-        alt: `${SITE.name} — +300 mapas mentais visuais e bônus`,
+        width: 2955,
+        height: 2058,
+        alt: `${SITE.name} — +100 mapas mentais visuais e bônus`,
       },
     ],
   },

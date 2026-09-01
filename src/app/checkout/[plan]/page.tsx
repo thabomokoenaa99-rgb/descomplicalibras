@@ -76,8 +76,8 @@ export default async function CheckoutPage({
           <Image
             src={ui.image}
             alt={`Mockup do ${ui.name}`}
-            width={plan === "basico" ? 1024 : 1024}
-            height={plan === "basico" ? 1024 : 731}
+            width={plan === "basico" ? 1254 : 2955}
+            height={plan === "basico" ? 1254 : 2058}
             className={`shrink-0 h-auto object-contain ${plan === "basico" ? "w-[4.5rem] sm:w-20" : "w-24 sm:w-28"}`}
           />
           <div className="min-w-0">

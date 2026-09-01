@@ -36,9 +36,9 @@ export function HeroSection() {
             />
             <Image
               src="/images/mockup/hero-bundle.webp"
-              alt="Descomplica Libras — pacote completo com +300 mapas mentais visuais e bônus"
-              width={1024}
-              height={731}
+              alt="Descomplica Libras — pacote completo com +100 mapas mentais visuais e bônus"
+              width={2955}
+              height={2058}
               priority
               sizes="(max-width: 640px) 92vw, 42rem"
               className="w-full h-auto object-contain"

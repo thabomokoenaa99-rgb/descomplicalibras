@@ -27,9 +27,9 @@ export function PricingSection() {
               <div className="w-full mb-5 sm:mb-6 flex items-center justify-center pointer-events-none px-1">
                 <Image
                   src="/images/mockup/produto-principal.webp"
-                  alt="Mockup do Plano Básico — +300 Mapas Mentais Visuais"
-                  width={1024}
-                  height={1024}
+                  alt="Mockup do Plano Básico — +100 Mapas Mentais Visuais"
+                  width={1254}
+                  height={1254}
                   loading="lazy"
                   sizes="(max-width: 640px) 58vw, 14rem"
                   className="w-[min(100%,14rem)] sm:max-w-[15rem] h-auto object-contain drop-shadow-[0_8px_20px_rgba(13,27,61,0.10)]"
@@ -87,9 +87,9 @@ export function PricingSection() {
               <div className="w-full flex items-center justify-center mb-6 sm:mb-7 mt-2 pointer-events-none px-0 sm:px-1">
                 <Image
                   src="/images/mockup/hero-bundle.webp"
-                  alt="Mockup do Plano Completo — biblioteca +300 mapas mentais e 4 bônus"
-                  width={1024}
-                  height={731}
+                  alt="Mockup do Plano Completo — biblioteca +100 mapas mentais e 4 bônus"
+                  width={2955}
+                  height={2058}
                   loading="lazy"
                   sizes="(max-width: 640px) 94vw, 24rem"
                   className="w-full max-w-[min(100%,22rem)] sm:max-w-sm h-auto object-contain drop-shadow-[0_15px_30px_rgba(13,27,61,0.14)] group-hover:scale-[1.03] transition-transform duration-500"
