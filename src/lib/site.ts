@@ -12,8 +12,12 @@ export const SITE = {
     savings: "269,10",
   },
   checkout: {
-    basic: process.env.NEXT_PUBLIC_CHECKOUT_BASIC || "/checkout/basico",
-    complete: process.env.NEXT_PUBLIC_CHECKOUT_COMPLETE || "/checkout/completo",
+    basic:
+      process.env.NEXT_PUBLIC_CHECKOUT_BASIC ||
+      "https://lastlink.com/p/C17326F30/checkout-payment/",
+    complete:
+      process.env.NEXT_PUBLIC_CHECKOUT_COMPLETE ||
+      "https://lastlink.com/p/C6C3FA852/checkout-payment/",
   },
 } as const;
 
