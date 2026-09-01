@@ -1,6 +1,6 @@
 import { buildPixelProductPayload } from "@/lib/pixel-commerce";
 
-export const META_PIXEL_ID = "1701264531180748";
+export const META_PIXEL_IDS = ["1701264531180748", "4497992933816815"] as const;
 
 export type MetaEventData = Record<string, string | number | string[] | undefined>;
 
@@ -20,9 +20,11 @@ export function ensureMetaPixel(trackPageView = false) {
   }
 
   window.__metaPixels ??= {};
-  if (!window.__metaPixels[META_PIXEL_ID]) {
-    window.fbq("init", META_PIXEL_ID);
-    window.__metaPixels[META_PIXEL_ID] = true;
+  for (const pixelId of META_PIXEL_IDS) {
+    if (!window.__metaPixels[pixelId]) {
+      window.fbq("init", pixelId);
+      window.__metaPixels[pixelId] = true;
+    }
   }
 
   if (trackPageView && !window.__metaPageView) {
