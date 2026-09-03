@@ -14,10 +14,9 @@ import {
   type CheckoutSuccessPayload,
 } from "@/lib/checkout-success";
 import {
-  toMetritoLead,
-  trackAddPaymentInfo,
-  trackInitiateCheckout,
-} from "@/lib/metrito";
+  trackMetaAddPaymentInfo,
+  trackMetaInitiateCheckout,
+} from "@/lib/meta-pixel";
 import { isPaymentConfirmed } from "@/lib/payment-status";
 import { firePurchaseOnce } from "@/lib/purchase-tracking";
 
@@ -131,7 +130,6 @@ export function CheckoutForm({
         orderId,
         paymentMethod,
         email: form.email,
-        lead: toMetritoLead(form),
       };
       persistCheckoutSuccess(payload);
       clearPixSession();
@@ -222,7 +220,6 @@ export function CheckoutForm({
       orderId: saved.pix.orderUUID,
       paymentMethod: "pix",
       email: saved.form.email,
-      lead: toMetritoLead(saved.form),
     });
   }, [plan, pix]);
 
@@ -265,8 +262,7 @@ export function CheckoutForm({
     setError(null);
     setLoading(true);
 
-    const lead = toMetritoLead(form);
-    trackInitiateCheckout(plan, planName, amount, lead);
+    trackMetaInitiateCheckout(plan, planName);
 
     try {
       const payload: Record<string, unknown> = {
@@ -294,12 +290,12 @@ export function CheckoutForm({
       }
 
       if (data.method === "creditCard" || data.status === "paid") {
-        trackAddPaymentInfo(plan, planName, amount, "creditCard", lead);
+        trackMetaAddPaymentInfo(plan, planName, "creditCard");
         goToThankYou(data.orderUUID as string | undefined, "creditCard");
         return;
       }
 
-      trackAddPaymentInfo(plan, planName, amount, "pix", lead);
+      trackMetaAddPaymentInfo(plan, planName, "pix");
       persistCheckoutSuccess({
         plan,
         planName,
@@ -307,7 +303,6 @@ export function CheckoutForm({
         orderId: data.orderUUID as string,
         paymentMethod: "pix",
         email: form.email,
-        lead,
       });
       const pixData = data as PixData;
       savePixSession(pixData);

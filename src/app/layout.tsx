@@ -3,7 +3,6 @@ import { Poppins } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
 import { MetaPixel } from "@/components/MetaPixel";
 import { MetaPixelEnsure } from "@/components/MetaPixelEnsure";
-import { MetritoScript } from "@/components/MetritoScript";
 import { SEO, SITE } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -58,7 +57,6 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
     <html lang="pt-BR" className={`${poppins.variable} scroll-smooth`}>
       <head>
         <MetaPixel />
-        <MetritoScript />
         <JsonLd />
       </head>
       <body className="font-sans" style={{ paddingTop: 37 }}>

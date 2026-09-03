@@ -1,7 +1,6 @@
 import Image from "next/image";
 import { PlanCheckoutButton } from "@/components/PlanCheckoutButton";
 import { copy } from "@/lib/content";
-import { PLANS } from "@/lib/hoopay";
 import { SITE } from "@/lib/site";
 
 export function PricingSection() {
@@ -57,7 +56,6 @@ export function PricingSection() {
                 href={SITE.checkout.basic}
                 plan="basico"
                 planName={copy.pricing.basic.name}
-                value={PLANS.basico.amount}
                 className="w-full text-base sm:text-xl shadow-[0_8px_20px_rgba(37,211,102,0.3)]"
               >
                 {copy.pricing.basic.cta}
@@ -149,7 +147,6 @@ export function PricingSection() {
                 href={SITE.checkout.complete}
                 plan="completo"
                 planName={copy.pricing.complete.name}
-                value={PLANS.completo.amount}
                 className="w-full text-base sm:text-xl"
               >
                 {copy.pricing.complete.cta}

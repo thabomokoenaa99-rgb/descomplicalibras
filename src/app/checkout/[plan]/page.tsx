@@ -5,7 +5,7 @@ import { notFound } from "next/navigation";
 import { CheckoutBasicUpsell } from "@/components/CheckoutBasicUpsell";
 import { CheckoutForm } from "@/components/CheckoutForm";
 import { CheckoutOrderRecovery } from "@/components/CheckoutOrderRecovery";
-import { MetritoCheckoutTracker } from "@/components/MetritoCheckoutTracker";
+import { MetaCheckoutTracker } from "@/components/MetaCheckoutTracker";
 import { BonusesSection } from "@/sections/BonusesSection";
 import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { PLANS, isPlanSlug } from "@/lib/hoopay";
@@ -94,7 +94,7 @@ export default async function CheckoutPage({
           </div>
         </div>
 
-        <MetritoCheckoutTracker plan={plan} planName={ui.name} value={PLANS[plan].amount} />
+        <MetaCheckoutTracker plan={plan} planName={ui.name} />
 
         <CheckoutForm
           plan={plan}

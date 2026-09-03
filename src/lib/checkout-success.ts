@@ -1,4 +1,3 @@
-import type { MetritoLead } from "@/lib/metrito";
 import type { PlanSlug } from "@/lib/hoopay";
 
 export const CHECKOUT_SUCCESS_STORAGE_KEY = "descomplicalibras_checkout_success";
@@ -10,7 +9,6 @@ export type CheckoutSuccessPayload = {
   orderId?: string;
   paymentMethod: "pix" | "creditCard";
   email: string;
-  lead?: MetritoLead;
 };
 
 export function persistCheckoutSuccess(payload: CheckoutSuccessPayload) {

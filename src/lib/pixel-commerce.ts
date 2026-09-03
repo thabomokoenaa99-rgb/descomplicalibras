@@ -16,7 +16,7 @@ export function getPixelPlanValueBrl(plan: string): number {
   return PLANS[plan].amount;
 }
 
-/** Valor enviado ao Meta Pixel / Metrito (USD). */
+/** Valor enviado ao Meta Pixel (USD). */
 export function getPixelPlanValue(plan: string): number {
   const brl = getPixelPlanValueBrl(plan);
   if (brl <= 0) return 0;

@@ -3,8 +3,7 @@ import {
   hasPurchaseBeenTracked,
   markPurchaseTracked,
 } from "@/lib/checkout-success";
-import { trackPurchase } from "@/lib/metrito";
-import { waitForMetaPixel } from "@/lib/meta-pixel";
+import { trackMetaPurchase, waitForMetaPixel } from "@/lib/meta-pixel";
 
 function purchaseDedupeKey(payload: CheckoutSuccessPayload) {
   return payload.orderId ?? `session_${payload.plan}_${payload.email || "guest"}`;
@@ -16,11 +15,7 @@ export async function firePurchaseOnce(payload: CheckoutSuccessPayload): Promise
 
   await waitForMetaPixel();
 
-  trackPurchase(payload.plan, payload.planName, payload.amount, {
-    orderId: payload.orderId,
-    paymentMethod: payload.paymentMethod,
-    lead: payload.lead,
-  });
+  trackMetaPurchase(payload.plan, payload.planName, payload.orderId, payload.paymentMethod);
 
   markPurchaseTracked(key);
   return true;

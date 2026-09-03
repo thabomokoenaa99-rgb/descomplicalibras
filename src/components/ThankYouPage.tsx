@@ -75,7 +75,6 @@ export function ThankYouPage() {
         orderId,
         paymentMethod,
         email: stored?.email ?? "",
-        lead: stored?.lead,
       };
 
       // Veio do checkout: pagamento já foi confirmado antes do redirect.
