@@ -19,6 +19,7 @@ import {
 } from "@/lib/meta-pixel";
 import { isPaymentConfirmed } from "@/lib/payment-status";
 import { firePurchaseOnce } from "@/lib/purchase-tracking";
+import { urlWithCurrentSearchParams } from "@/lib/url-parameters";
 
 type PixData = {
   method: "pix";
@@ -134,7 +135,7 @@ export function CheckoutForm({
       persistCheckoutSuccess(payload);
       clearPixSession();
       await firePurchaseOnce(payload);
-      router.push(getThankYouUrl(plan, orderId, paymentMethod));
+      router.push(urlWithCurrentSearchParams(getThankYouUrl(plan, orderId, paymentMethod)));
     },
     [plan, planName, amount, form, router],
   );

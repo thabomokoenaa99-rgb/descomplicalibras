@@ -3,6 +3,7 @@ import { Poppins } from "next/font/google";
 import { JsonLd } from "@/components/JsonLd";
 import { MetaPixel } from "@/components/MetaPixel";
 import { MetaPixelEnsure } from "@/components/MetaPixelEnsure";
+import { UrlParameterPropagation } from "@/components/UrlParameterPropagation";
 import { SEO, SITE } from "@/lib/site";
 import "@/styles/globals.css";
 
@@ -56,10 +57,23 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="pt-BR" className={`${poppins.variable} scroll-smooth`}>
       <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+  window.pixelId = "lt_px_1ae682aa199a";
+  var a = document.createElement("script");
+  a.setAttribute("async", "");
+  a.setAttribute("defer", "");
+  a.setAttribute("src", "https://lowtrack.com.br/pixel.js");
+  document.head.appendChild(a);
+`,
+          }}
+        />
         <MetaPixel />
         <JsonLd />
       </head>
       <body className="font-sans" style={{ paddingTop: 37 }}>
+        <UrlParameterPropagation />
         <MetaPixelEnsure />
         {children}
       </body>

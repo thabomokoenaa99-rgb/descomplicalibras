@@ -6,6 +6,7 @@ import { getThankYouUrl, readCheckoutSuccess } from "@/lib/checkout-success";
 import { readPixSession } from "@/lib/checkout-pix-session";
 import type { PlanSlug } from "@/lib/hoopay";
 import { isPaymentConfirmed } from "@/lib/payment-status";
+import { urlWithCurrentSearchParams } from "@/lib/url-parameters";
 
 type Props = {
   plan: PlanSlug;
@@ -35,7 +36,7 @@ export function CheckoutOrderRecovery({ plan }: Props) {
       const res = await fetch(`/api/checkout/status?order=${orderId}`, { cache: "no-store" });
       const data = (await res.json()) as { status?: string };
       if (isPaymentConfirmed(data.status)) {
-        window.location.href = getThankYouUrl(plan, orderId!, "pix");
+        window.location.href = urlWithCurrentSearchParams(getThankYouUrl(plan, orderId!, "pix"));
         return;
       }
       setNotice(
