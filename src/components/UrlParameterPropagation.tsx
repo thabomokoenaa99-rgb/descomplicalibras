@@ -4,7 +4,7 @@ import { useEffect } from "react";
 import { urlWithCurrentSearchParams } from "@/lib/url-parameters";
 
 const NAVIGATION_SELECTOR =
-  'a[href], form[action], button[formaction], input[formaction], iframe[data-checkout][src], iframe[src*="checkout"], iframe[src*="lastlink"], iframe[src*="hoopay"]';
+  'a[href], form[action], button[formaction], input[formaction], iframe[data-checkout][src], iframe[src*="checkout"], iframe[src*="cakto"], iframe[src*="lastlink"], iframe[src*="hoopay"]';
 
 function propagateToElement(element: Element) {
   const attribute =

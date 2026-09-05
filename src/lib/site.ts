@@ -14,10 +14,10 @@ export const SITE = {
   checkout: {
     basic:
       process.env.NEXT_PUBLIC_CHECKOUT_BASIC ||
-      "https://lastlink.com/p/C17326F30/checkout-payment/",
+      "https://pay.cakto.com.br/xabq5au_1087032",
     complete:
       process.env.NEXT_PUBLIC_CHECKOUT_COMPLETE ||
-      "https://lastlink.com/p/C6C3FA852/checkout-payment/",
+      "https://pay.cakto.com.br/ioqr3ew_1086923",
   },
 } as const;
 
