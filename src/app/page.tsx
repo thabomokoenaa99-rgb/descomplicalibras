@@ -1,5 +1,4 @@
-import { SalesToast } from "@/components/SalesToast";
-import { StickyCta } from "@/components/StickyCta";
+import dynamic from "next/dynamic";
 import { UrgencyBanner } from "@/components/UrgencyBanner";
 import { BenefitsSection } from "@/sections/BenefitsSection";
 import { BonusesSection } from "@/sections/BonusesSection";
@@ -12,6 +11,16 @@ import { PricingSection } from "@/sections/PricingSection";
 import { ProductSection } from "@/sections/ProductSection";
 import { TestimonialsSection } from "@/sections/TestimonialsSection";
 import { UrgencySection } from "@/sections/UrgencySection";
+
+export const revalidate = 3600;
+
+const SalesToast = dynamic(() =>
+  import("@/components/SalesToast").then((mod) => mod.SalesToast),
+);
+
+const StickyCta = dynamic(() =>
+  import("@/components/StickyCta").then((mod) => mod.StickyCta),
+);
 
 export default function HomePage() {
   return (

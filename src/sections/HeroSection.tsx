@@ -1,15 +1,17 @@
-import Image from "next/image";
+import { preload } from "react-dom";
 import { CtaButton } from "@/components/CtaButton";
 import { copy } from "@/lib/content";
 
 export function HeroSection() {
-  return (
-    <section className="bg-white text-ink pt-6 pb-10 sm:pt-8 sm:pb-14 px-4 overflow-hidden relative">
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-cta/10 blur-[120px] rounded-full pointer-events-none -z-10"
-        aria-hidden="true"
-      />
+  preload("/images/mockup/hero-lcp.webp", {
+    as: "image",
+    fetchPriority: "high",
+  });
 
+  return (
+    <>
+      <link rel="preload" as="image" href="/images/mockup/hero-lcp.webp" fetchPriority="high" />
+      <section className="bg-white text-ink pt-6 pb-10 sm:pt-8 sm:pb-14 px-4 overflow-hidden relative">
       <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
         <div className="flex flex-nowrap items-center justify-center gap-1.5 sm:gap-3 mb-4 sm:mb-5">
           <div className="inline-flex items-center gap-1.5 sm:gap-2 bg-cta text-ink px-3 sm:px-5 py-2 rounded-full text-[10px] sm:text-sm font-extrabold whitespace-nowrap tracking-wide sm:tracking-wider border border-cta-dark/25 shadow-sm">
@@ -30,17 +32,17 @@ export function HeroSection() {
 
         <div className="relative w-full max-w-[22rem] sm:max-w-4xl mx-auto mt-2 sm:mt-4">
           <div className="relative max-w-[22rem] sm:max-w-3xl mx-auto">
-            <div
-              className="absolute inset-x-6 top-4 h-1/2 bg-gradient-to-tr from-cta/25 to-cta/10 blur-[70px] sm:blur-[110px] rounded-full -z-10 pointer-events-none"
-              aria-hidden="true"
-            />
-            <Image
-              src="/images/mockup/hero-bundle.webp"
-              alt="Descomplica Libras — pacote completo com +100 mapas mentais visuais e bônus"
-              width={2955}
-              height={2058}
-              priority
+            {/* Native img bypasses the image optimizer so the LCP is a static CDN file. */}
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/images/mockup/hero-lcp.webp"
+              srcSet="/images/mockup/hero-lcp.webp 720w, /images/mockup/hero-lcp-2x.webp 1080w"
               sizes="(max-width: 640px) 92vw, 42rem"
+              width={720}
+              height={501}
+              alt="Descomplica Libras — pacote completo com +100 mapas mentais visuais e bônus"
+              fetchPriority="high"
+              decoding="async"
               className="w-full h-auto object-contain"
             />
           </div>
@@ -77,5 +79,6 @@ export function HeroSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

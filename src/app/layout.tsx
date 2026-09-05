@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import { DeferredPixels } from "@/components/DeferredPixels";
 import { JsonLd } from "@/components/JsonLd";
 import { MetaPixel } from "@/components/MetaPixel";
 import { MetaPixelEnsure } from "@/components/MetaPixelEnsure";
@@ -9,9 +10,11 @@ import "@/styles/globals.css";
 
 const poppins = Poppins({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700", "800", "900"],
+  weight: ["400", "700", "800"],
   variable: "--font-poppins",
   display: "swap",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 export const metadata: Metadata = {
@@ -34,9 +37,9 @@ export const metadata: Metadata = {
     description: SEO.ogDescription,
     images: [
       {
-        url: "/images/mockup/hero-bundle.webp",
-        width: 2955,
-        height: 2058,
+        url: "/images/mockup/hero-lcp-2x.webp",
+        width: 1080,
+        height: 752,
         alt: `${SITE.name} — +100 mapas mentais visuais e bônus`,
       },
     ],
@@ -45,7 +48,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SEO.ogTitle,
     description: SEO.ogDescription,
-    images: ["/images/mockup/hero-bundle.webp"],
+    images: ["/images/mockup/hero-lcp-2x.webp"],
   },
   icons: {
     icon: [{ url: "/icon.svg", type: "image/svg+xml" }],
@@ -55,25 +58,14 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="pt-BR" className={`${poppins.variable} scroll-smooth`}>
+    <html lang="pt-BR" className={`${poppins.variable} scroll-smooth`} style={{ backgroundColor: "#f5f9ff" }}>
       <head>
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-  window.pixelId = "lt_px_1ae682aa199a";
-  var a = document.createElement("script");
-  a.setAttribute("async", "");
-  a.setAttribute("defer", "");
-  a.setAttribute("src", "https://lowtrack.com.br/pixel.js");
-  document.head.appendChild(a);
-`,
-          }}
-        />
-        <MetaPixel />
         <JsonLd />
       </head>
-      <body className="font-sans" style={{ paddingTop: 37 }}>
+      <body className="font-sans" style={{ paddingTop: 37, backgroundColor: "#f5f9ff" }}>
+        <MetaPixel />
         <UrlParameterPropagation />
+        <DeferredPixels />
         <MetaPixelEnsure />
         {children}
       </body>

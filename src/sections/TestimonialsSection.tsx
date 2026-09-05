@@ -21,7 +21,7 @@ type Props = {
 };
 
 export function TestimonialsSection({
-  className = "bg-white py-10 sm:py-14 px-4",
+  className = "below-fold bg-white py-10 sm:py-14 px-4",
   containerClassName = "max-w-5xl mx-auto",
 }: Props) {
   return (

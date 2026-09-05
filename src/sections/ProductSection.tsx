@@ -4,13 +4,13 @@ import { copy } from "@/lib/content";
 
 export function ProductSection() {
   return (
-    <section className="relative bg-gradient-to-br from-ink-soft via-ink to-ink-deep text-white py-12 sm:py-16 px-4 overflow-hidden">
+    <section className="below-fold relative bg-gradient-to-br from-ink-soft via-ink to-ink-deep text-white py-12 sm:py-16 px-4 overflow-hidden">
       <div
-        className="absolute -top-24 -left-24 w-[420px] h-[420px] bg-cta/10 blur-[120px] rounded-full pointer-events-none -z-0"
+        className="hidden sm:block absolute -top-24 -left-24 w-[420px] h-[420px] bg-cta/10 blur-[120px] rounded-full pointer-events-none -z-0"
         aria-hidden="true"
       />
       <div
-        className="absolute -bottom-32 -right-20 w-[460px] h-[460px] bg-cta/10 blur-[130px] rounded-full pointer-events-none -z-0"
+        className="hidden sm:block absolute -bottom-32 -right-20 w-[460px] h-[460px] bg-cta/10 blur-[130px] rounded-full pointer-events-none -z-0"
         aria-hidden="true"
       />
 

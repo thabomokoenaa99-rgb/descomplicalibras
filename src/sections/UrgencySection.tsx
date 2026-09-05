@@ -4,13 +4,13 @@ import { copy } from "@/lib/content";
 
 export function UrgencySection() {
   return (
-    <section className="bg-gradient-to-br from-ink-soft via-ink to-ink-deep text-white text-center pt-8 pb-12 sm:pt-10 sm:pb-16 px-4 relative overflow-hidden">
+    <section className="below-fold bg-gradient-to-br from-ink-soft via-ink to-ink-deep text-white text-center pt-8 pb-12 sm:pt-10 sm:pb-16 px-4 relative overflow-hidden">
       <div
-        className="absolute top-0 left-1/4 w-[300px] h-[300px] bg-cta/10 blur-[80px] rounded-full pointer-events-none"
+        className="hidden sm:block absolute top-0 left-1/4 w-[300px] h-[300px] bg-cta/10 blur-[80px] rounded-full pointer-events-none"
         aria-hidden="true"
       />
       <div
-        className="absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full pointer-events-none"
+        className="hidden sm:block absolute bottom-0 right-1/4 w-[300px] h-[300px] bg-white/5 blur-[80px] rounded-full pointer-events-none"
         aria-hidden="true"
       />
 

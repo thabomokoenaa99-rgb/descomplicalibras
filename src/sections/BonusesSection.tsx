@@ -56,7 +56,7 @@ type BonusesSectionProps = {
 
 export function BonusesSection({
   showCta = true,
-  className = "bg-secondary py-12 sm:py-16 px-4 overflow-hidden relative",
+  className = "below-fold bg-secondary py-12 sm:py-16 px-4 overflow-hidden relative",
   containerClassName = "max-w-5xl mx-auto",
 }: BonusesSectionProps) {
   return (

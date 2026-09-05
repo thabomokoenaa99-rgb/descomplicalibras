@@ -6,7 +6,7 @@ import { ensureMetaPixel } from "@/lib/meta-pixel";
 export function MetaPixelEnsure() {
   useEffect(() => {
     const boot = () => {
-      if (ensureMetaPixel(true)) return;
+      if (ensureMetaPixel(false)) return;
       window.setTimeout(boot, 300);
     };
     boot();

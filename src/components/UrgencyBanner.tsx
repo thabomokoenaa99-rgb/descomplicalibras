@@ -1,15 +1,8 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import { copy } from "@/lib/content";
 import { formatBRLDate } from "@/utils/format";
 
 export function UrgencyBanner() {
-  const [date, setDate] = useState(formatBRLDate);
-
-  useEffect(() => {
-    setDate(formatBRLDate());
-  }, []);
+  const date = formatBRLDate();
 
   return (
     <div
@@ -21,9 +14,7 @@ export function UrgencyBanner() {
       <span aria-hidden="true">⚠️ </span>
       <span className="uppercase tracking-wide font-extrabold">{copy.urgency.prefix}</span>{" "}
       {copy.urgency.text}{" "}
-      <span className="underline decoration-white/70 whitespace-nowrap font-extrabold" suppressHydrationWarning>
-        {date}!
-      </span>
+      <span className="underline decoration-white/70 whitespace-nowrap font-extrabold">{date}!</span>
     </div>
   );
 }

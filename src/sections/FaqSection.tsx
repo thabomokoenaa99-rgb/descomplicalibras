@@ -4,7 +4,7 @@ import { copy } from "@/lib/content";
 
 export function FaqSection() {
   return (
-    <section className="bg-primary py-10 sm:py-14 px-4" aria-labelledby="faq-heading">
+    <section className="below-fold bg-primary py-10 sm:py-14 px-4" aria-labelledby="faq-heading">
       <div className="max-w-3xl mx-auto">
         <h2
           id="faq-heading"

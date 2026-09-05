@@ -7,7 +7,7 @@ export function PricingSection() {
   return (
     <section id="oferta" className="bg-gradient-to-br from-ink-soft via-ink to-ink-deep py-12 sm:py-16 px-4 relative overflow-hidden scroll-mt-16">
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] sm:w-[600px] h-[400px] sm:h-[600px] bg-cta/10 blur-[80px] sm:blur-[120px] pointer-events-none rounded-full"
+        className="hidden sm:block absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-cta/10 blur-[120px] pointer-events-none rounded-full"
         aria-hidden="true"
       />
 

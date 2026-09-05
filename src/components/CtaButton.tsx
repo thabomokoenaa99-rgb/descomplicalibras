@@ -1,5 +1,3 @@
-"use client";
-
 import { type MouseEvent, type ReactNode } from "react";
 
 type CtaButtonProps = {

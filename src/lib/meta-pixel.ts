@@ -7,6 +7,7 @@ export type MetaEventData = Record<string, string | number | string[] | undefine
 declare global {
   interface Window {
     fbq?: (...args: unknown[]) => void;
+    pixelId?: string;
     __metaPixelInitialized?: boolean;
     __metaPageView?: boolean;
   }

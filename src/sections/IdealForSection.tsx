@@ -2,7 +2,7 @@ import { copy } from "@/lib/content";
 
 export function IdealForSection() {
   return (
-    <section className="bg-primary py-12 sm:py-16 px-4">
+    <section className="below-fold bg-primary py-12 sm:py-16 px-4">
       <div className="max-w-5xl mx-auto">
         <h2 className="text-2xl sm:text-4xl font-extrabold text-center text-ink mb-12 sm:mb-16 tracking-tight text-balance leading-snug">
           {copy.idealFor.titleBefore}{" "}

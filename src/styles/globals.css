@@ -113,6 +113,11 @@
     animation: marquee-reverse 55s linear infinite;
   }
 
+  .below-fold {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 900px;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .animate-marquee,
     .animate-marquee-reverse,

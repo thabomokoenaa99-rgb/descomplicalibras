@@ -5,7 +5,7 @@ export function FooterSection() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="bg-ink py-10 sm:py-12 px-4 text-center">
+    <footer className="below-fold bg-ink py-10 sm:py-12 px-4 text-center">
       <div className="max-w-4xl mx-auto text-white/70 text-xs sm:text-sm space-y-4">
         <h2 className="font-black text-white text-base sm:text-lg mb-1">{SITE.name}</h2>
         <p className="flex flex-wrap items-center justify-center gap-x-3 gap-y-1 text-white/85 font-semibold">
