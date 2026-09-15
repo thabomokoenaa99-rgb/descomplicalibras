@@ -93,17 +93,17 @@ export default function Oferta21DiasPage() {
               Sim, quero aprender em 21 dias!
             </a>
 
+            <a
+              href="https://members.cakto.com.br"
+              className="mt-2 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-zinc-200 px-4 py-2.5 text-center text-[11px] font-bold leading-tight text-body/75 transition-colors hover:bg-zinc-300 hover:text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-body/30 sm:min-h-12 sm:text-sm"
+            >
+              Não quero o método completo, quero acessar meu material
+            </a>
+
             <p className="mt-1.5 text-[9px] font-semibold text-body/70 sm:mt-3 sm:text-xs">
               🔒 Pagamento seguro • Acesso imediato ao PDF
             </p>
           </div>
-
-          <a
-            href="https://members.cakto.com.br"
-            className="mt-8 mb-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-zinc-200 px-4 py-3 text-center text-xs font-bold leading-tight text-body/75 transition-colors hover:bg-zinc-300 hover:text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-body/30 sm:mt-5 sm:min-h-14 sm:text-sm"
-          >
-            Não quero o método completo, quero acessar meu material
-          </a>
         </section>
       </div>
     </main>
