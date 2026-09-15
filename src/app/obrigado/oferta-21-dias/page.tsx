@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default function Oferta21DiasPage() {
   return (
-    <main className="-mt-[37px] min-h-screen overflow-hidden bg-[#eaf8f7]">
+    <main className="-mt-[37px] min-h-screen bg-[#eaf8f7]">
       <header className="bg-red-600 px-4 py-2.5 text-center text-xs font-extrabold text-white shadow-md sm:text-sm">
         <strong className="uppercase">Espere!</strong> Não acesse o conteúdo sem ver isso antes...
       </header>
@@ -41,31 +41,21 @@ export default function Oferta21DiasPage() {
             <span className="text-[#207c7b]">21 Dias!</span>
           </h1>
 
-          <details className="group mx-auto mt-2 max-w-lg text-pretty text-xs font-semibold leading-snug text-body sm:mt-4 sm:text-base sm:leading-relaxed lg:mx-0 lg:text-lg">
-            <summary className="cursor-pointer list-none">
-              Aprenda em 21 dias com um método claro, simples e guiado.{" "}
-              <span className="whitespace-nowrap font-extrabold text-[#207c7b] group-open:hidden">
-                Ler mais +
-              </span>
-              <span className="hidden whitespace-nowrap font-extrabold text-[#207c7b] group-open:inline">
-                Ver menos −
-              </span>
-            </summary>
-            <div className="mt-3 space-y-3 text-left">
-              <p>
-                Leve o <strong className="text-ink">Cronograma Acelerador + Rastreador em PDF</strong>{" "}
-                e tenha um passo a passo para saber exatamente o que fazer todos os dias, acompanhar
-                sua evolução e evitar aquele momento em que você trava e não sabe como continuar.
-              </p>
-              <p>
-                São 21 dias com direção, acompanhamento e um método para você sair do “não sei por
-                onde começar” para “eu sei exatamente o que estou fazendo”.
-              </p>
-              <p>
-                Comece hoje e transforme seus próximos 21 dias no seu período de maior evolução.
-              </p>
-            </div>
-          </details>
+          <div className="mx-auto mt-2 max-w-lg space-y-2.5 text-pretty text-xs font-semibold leading-snug text-body sm:mt-4 sm:space-y-3 sm:text-base sm:leading-relaxed lg:mx-0 lg:text-lg">
+            <p>Aprenda em 21 dias com um método claro, simples e guiado.</p>
+            <p>
+              Leve o <strong className="text-ink">Cronograma Acelerador + Rastreador em PDF</strong>{" "}
+              e tenha um passo a passo para saber exatamente o que fazer todos os dias, acompanhar
+              sua evolução e evitar aquele momento em que você trava e não sabe como continuar.
+            </p>
+            <p>
+              São 21 dias com direção, acompanhamento e um método para você sair do “não sei por
+              onde começar” para “eu sei exatamente o que estou fazendo”.
+            </p>
+            <p>
+              Comece hoje e transforme seus próximos 21 dias no seu período de maior evolução.
+            </p>
+          </div>
 
           <ul className="mx-auto mt-3 max-w-lg divide-y divide-[#207c7b]/10 overflow-hidden rounded-xl bg-white/80 text-left text-[11px] font-bold leading-tight text-ink shadow-sm sm:mt-5 sm:grid sm:gap-2 sm:divide-y-0 sm:bg-transparent sm:text-sm sm:shadow-none lg:mx-0 lg:text-base">
             <li className="flex items-start gap-2 px-3 py-2 sm:rounded-2xl sm:bg-white/80 sm:px-4 sm:py-3 sm:shadow-sm">
@@ -103,17 +93,17 @@ export default function Oferta21DiasPage() {
               Sim, quero aprender em 21 dias!
             </a>
 
-            <a
-              href="https://members.cakto.com.br"
-              className="mt-1.5 inline-flex w-full items-center justify-center rounded-full bg-zinc-200 px-3 py-1.5 text-center text-[9px] font-semibold leading-tight text-body/70 transition-colors hover:bg-zinc-300 hover:text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-body/30 sm:mt-2 sm:px-4 sm:py-2.5 sm:text-xs"
-            >
-              Não quero o método completo, quero acessar meu material
-            </a>
-
             <p className="mt-1.5 text-[9px] font-semibold text-body/70 sm:mt-3 sm:text-xs">
               🔒 Pagamento seguro • Acesso imediato ao PDF
             </p>
           </div>
+
+          <a
+            href="https://members.cakto.com.br"
+            className="mt-8 mb-6 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-zinc-200 px-4 py-3 text-center text-xs font-bold leading-tight text-body/75 transition-colors hover:bg-zinc-300 hover:text-body focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-body/30 sm:mt-5 sm:min-h-14 sm:text-sm"
+          >
+            Não quero o método completo, quero acessar meu material
+          </a>
         </section>
       </div>
     </main>
