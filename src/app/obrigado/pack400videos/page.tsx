@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
+import { VideoExamples } from "@/components/VideoExamples";
 
 const CHECKOUT_URL = "https://pay.cakto.com.br/vmfzakc_1113034";
 
@@ -59,6 +60,8 @@ export default function Pack400VideosPage() {
               Acelere sua prática hoje e tenha o guia visual definitivo sempre na palma da sua mão.
             </p>
           </div>
+
+          <VideoExamples checkoutUrl={CHECKOUT_URL} />
 
           <ul className="mx-auto mt-3 max-w-lg divide-y divide-[#207c7b]/10 overflow-hidden rounded-xl bg-white/80 text-left text-[11px] font-bold leading-tight text-ink shadow-sm sm:mt-5 sm:grid sm:gap-2 sm:divide-y-0 sm:bg-transparent sm:text-sm sm:shadow-none lg:mx-0 lg:text-base">
             <li className="flex items-start gap-2 px-3 py-2 sm:rounded-2xl sm:bg-white/80 sm:px-4 sm:py-3 sm:shadow-sm">
