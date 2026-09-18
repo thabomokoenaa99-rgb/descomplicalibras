@@ -80,11 +80,11 @@ export default function Pack400VideosPage() {
 
           <div className="mt-3 rounded-2xl border-2 border-[#207c7b]/20 bg-white p-3 shadow-[0_12px_35px_rgba(13,27,61,0.12)] sm:mt-6 sm:rounded-[2rem] sm:p-7">
             <p className="text-[11px] font-bold text-body sm:text-sm">
-              De <s>R$ 75,80</s> por apenas
+              De <s>R$ 35,80</s> por apenas
             </p>
             <div className="flex items-center justify-center gap-2 lg:justify-start">
               <strong className="text-3xl font-extrabold text-[#207c7b] sm:text-5xl">
-                R$ 37,90
+                R$ 17,90
               </strong>
               <span className="rounded-lg bg-[#f5bd24] px-2 py-1 text-[10px] font-extrabold text-ink sm:px-2.5 sm:text-xs">
                 50% OFF
